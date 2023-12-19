@@ -15,7 +15,7 @@ function selectElement(id, valueToSelect) {
     element.value = valueToSelect;
 }
 
-AmTabText.classList.add('act');
+RepText.classList.add('act');
 
 
 function change_page(name){
@@ -24,19 +24,19 @@ function change_page(name){
 
 function CalcuClk () {
     let index = 0
-    change_page("../index.html")
+    change_page("index.html")
 
     
 }
 function RepClk () {
     let index = 0
-    change_page("../Report/Report.html")
+    change_page("Report.html")
 
     
 }
 function AmTabClk () {
     let index = 0
-    change_page("../AmorTable/AmorTable.html")
+    change_page("AmorTable.html")
 
 
     
