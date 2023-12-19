@@ -27,7 +27,7 @@ function change_page(name){
 
 function CalcuClk () {
     let index = 0
-    change_page("../Calculator/Calculator.html")
+    change_page("../index.html")
 
     
 }
