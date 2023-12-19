@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDS TDS CALCULATOR</title>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+ 
+    <div class="container">
+        <h1>GDS TDS Loan Calculator</h1>
+        <div class="opt">
+            <h4 class="Calcu">Calculator</h4>
+            <h4 class="Rep">Report</h4>
+            <h4 class="AmTab">Amortization Table</h4>
+        </div>
+        <div class="Assumptions">
+            <h4 class="assumpText">Assumptions</h4>
+            <div class="compounding">
+                <h4>Compounding:</h4>
+                <select id="CompoundSel">
+                    <option class="optSt" value="Annual">Annual</option>
+                    <option class="optSt" value="Semi-Annual">Semi-Annual</option>
+                    <option class="optSt" value="Monthly">Monthly</option>
+                    <option class="optSt" value="Quarterly">Quarterly</option>
+                </select>
+            </div>
+            <div class="paymentPerYear">
+                <h4>Payments Per Year:</h4>
+                <select id="PerYearSel">
+                    <option class="optSt" value="4">4</option>
+                    <option class="optSt" value="6">6</option>
+                    <option class="optSt" value="12">12</option>
+                    <option class="optSt" value="24">24</option>
+                    <option class="optSt" value="26">26</option>
+                    <option class="optSt" value="52">52</option>
+                </select>
+            </div>
+        </div>
+        <div class="inputContainer">
+
+        </div>
+    </div>
+
+
+    <script src="./Calculator.js"></script>
+</body>
+</html>

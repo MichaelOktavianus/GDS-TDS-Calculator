@@ -1,0 +1,115 @@
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.319);
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}   
+.container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    height: 100vh;
+    
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    align-items: center;
+    color: rgb(18, 18, 113);
+    .opt {
+        width: fit-content;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        
+        h4{
+            font-size: 14pt;
+            font-weight: 700;
+            padding: 1.2vw 1vw 1.2vw 1vw;
+            margin: 2vw 0.2vw 0px 0.2vw;
+            
+            
+
+            &:hover{
+                background-color: rgba(132, 107, 107, 0.296);
+                cursor: pointer;
+                
+            }
+            
+        }
+
+        
+
+
+
+    }
+    h1 {
+        font-size: 28pt;
+        font-weight: 500;
+        
+        
+    }
+}
+
+.Assumptions {
+    display: block;
+    margin: 2% 0% 0% 65%;
+    width: 23vw;
+
+    color: black;
+
+    .compounding{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        h4 {
+            font-weight: 100;
+        }
+    }
+
+    .paymentPerYear{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        h4 {
+            font-weight: 100;
+        }
+    }
+}
+.act {
+    
+    transition-timing-function: linear;
+    transition-delay: 0.2s;
+    
+    border-bottom: 2px solid  rgb(18, 18, 113);
+}
+
+#CompoundSel, #PerYearSel {
+
+    width: 12vw;
+    height: 5vh;
+    .optSt {
+        width: 100%;
+        height: 10vh;
+        border-radius: 0px;
+        background-color: white;
+    }
+}
+.tables {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    #loanTable, #payTable {
+        margin: 2vw 1vw 0vw 1vw;
+        width: 48%;
+    }
+}
+#loanTable td, #loanTable th, #payTable td, #payTable th {
+    border: 1px solid #000000;
+    padding: 8px;
+  }
