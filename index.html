@@ -11,9 +11,9 @@
     <div class="container">
         <h1>GDS TDS Loan Calculator</h1>
         <div class="opt">
-            <h4 class="Calcu">Calculator</h4>
-            <h4 class="Rep">Report</h4>
-            <h4 class="AmTab">Amortization Table</h4>
+            <h4 class="Calcu defau">Calculator</h4>
+            <h4 class="Rep defau">Report</h4>
+            <h4 class="AmTab defau">Amortization Table</h4>
         </div>
         <div class="Assumptions">
             <h4 class="assumpText">Assumptions</h4>
@@ -39,8 +39,104 @@
             </div>
         </div>
         <div class="inputContainer">
+            <div class="loanDet">
+                
+                <h2>Loan Details</h2>
+                
+                <div class="divRow">
+                    <h4>Purchase Price (estimated)</h4>
+                    <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                    <span class="inputBox">
+                        <div class="spann"><h4>$</h4></div>
+                        <input type="text" class="textbox" id="purchasePrice">
+                    </span>
+                </div>
+                <div class="divRow">
+                    <h4>Duration of Loan (in months)</h4>
+                    <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                    <span class="inputBox">
+                        <div class="spann"><h4>$</h4></div>
+                        <input type="text" class="textbox" id="purchasePrice">
+                    </span>
+                </div>
+                <div class="divRow">
+                    <h4>Down Payment</h4>
+                    <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                    <span class="inputBox">
+                        <div class="spann"><h4>$</h4></div>
+                        <input type="text" class="textbox" id="purchasePrice">
+                    </span>
+                </div>
 
+                <div class="divRow">
+                    <h4>CMHC Ins.</h4>
+                    <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                    <span class="inputBox">
+                        <input type="text" class="textbox" id="purchasePrice">
+                        <div class="perct"><h4>%</h4></div>
+                    </span>
+                </div>
+                <div class="divRow">
+                    <h4>Estimated Veriable Rate</h4>
+                    <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                    <span class="inputBox">
+                        <input type="text" class="textbox" id="purchasePrice">
+                        <div class="perct"><h4>%</h4></div>
+                    </span>
+                </div>
+    
+            </div>
+            <div class="payments">
+
+                <div class="payTitle">
+                    <h2>Payments</h2>
+                    
+                    <div class="divRow">
+                        <h4>Est. Property Tax</h4>
+                        <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                        <span class="inputBox">
+                            <div class="spann"><h4>$</h4></div>
+                            <input type="text" class="textbox" id="purchasePrice">
+                        </span>
+                    </div>
+                    <div class="divRow">
+                        <h4>Maintenance Fee</h4>
+                        <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                        <span class="inputBox">
+                            <div class="spann"><h4>$</h4></div>
+                            <input type="text" class="textbox" id="purchasePrice">
+                        </span>
+                    </div>
+                    <div class="divRow">
+                        <h4>Heat & Hydro Components</h4>
+                        <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                        <span class="inputBox">
+                            <div class="perct"><h4>$</h4></div>
+                            <input type="text" class="textbox" id="purchasePrice">
+                        </span>
+                    </div>
+    
+                    <div class="divRow">
+                        <h4>Qualifying Rate</h4>
+                        <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                        <span class="inputBox">
+                            <input type="text" class="textbox" id="purchasePrice">
+                            <div class="perct"><h4>%</h4></div>
+                        </span>
+                    </div>
+                    <div class="divRow">
+                        <h4>Qualifying Mortage Payments</h4>
+                        <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
+                        <h3 id="mortPay">$1,635</h3>
+                    </div>
+                </div>
+
+                
+            </div>
         </div>
+
+        <div class="inputContainer">
+           
     </div>
 
 
