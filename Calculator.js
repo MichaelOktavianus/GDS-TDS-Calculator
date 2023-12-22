@@ -4,12 +4,18 @@ const AmTabText = document.querySelector("h4.AmTab")
 
 const comSel = document.querySelector("#CompoundSel")
 const pYearSel = document.querySelector("#PerYearSel")
-const textBox = document.querySelector(".textbox")
+const textBox = document.getElementsByClassName("textbox")
 
 CalcuText.addEventListener("click", CalcuClk)
 RepText.addEventListener("click", RepClk)
 AmTabText.addEventListener("click", AmTabClk)
-textBox.addEventListener("change", textSep)
+
+
+
+for (let i=0; i<textBox.length;i++){
+  textBox[i].addEventListener("change",textSep(textBox[i]))
+}
+
 
 function selectElement(id, valueToSelect) {    
     let element = document.getElementById(id);
@@ -43,15 +49,17 @@ function AmTabClk () {
 
     
 }
-function textSep () {
-    
-    if (textBox.value != "") {
-        textBox.value =textBox.value.replace(",", "")
-        console.log(textBox.value)
-        if (textBox.value.length % 3) {
+
+
+function textSep (tBox) {
+   
+    if (tBox.value != "") {
+      tBox.value = tBox.value.replace(",", "")
+        console.log(tBox.value)
+        if (tBox.value.length % 3 >= 0 ) {
             
-            textBox.value = addComma(textBox.value, 3, textBox.value.length + 1)
-            console.log(textBox.value)
+          tBox.value = addComma(tBox.value, 3, tBox.value.length + 1)
+            console.log(tBox.value)
         }
     }
 }
@@ -64,7 +72,7 @@ function addComma (num, per, places) {
   
     // (A2) NO DECIMAL PLACES - ROUND OFF
     // REMOVE THIS IF YOU DON'T WANT TO ROUND OFF
-    if (places==0) { num = Math.round(num); }
+    //if (places==0) { num = Math.round(num); }
    
     // (A3) SPLIT WHOLE & DECIMAL NUMBERS
     var cString = num.toString(),

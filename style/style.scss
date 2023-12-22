@@ -13,7 +13,7 @@ body {
     margin-right: auto;
     width: 95%;
     height: fit-content + 500px;
-    
+    box-shadow: 5px 5px 30px rgb(154, 141, 141);
     border-radius: 10px;
     background-color: rgb(255, 255, 255);
     text-align: center;
@@ -114,7 +114,7 @@ body {
     height: fit-content;
     margin: 1vh 0vw 2vh 0vw;
     padding-bottom: 20px;
-    border: 2px solid gray;
+    border: 2px solid rgb(212, 207, 207);
     border-radius: 15px;
     display: flex;
     flex-direction: row;
@@ -135,7 +135,10 @@ body {
     grid-template-columns: 35% 10% 55% ;
     align-items: center;
 
-    [data-tooltip]::before {
+    
+}
+
+[data-tooltip]::before {
         /* needed - do not touch */
         content: attr(data-tooltip);
         position: absolute;
@@ -172,22 +175,17 @@ body {
         color: black;
     }
     .toolTip {
-        margin: 0vh 0vw 0vh 2%;
+        
         width: 18px;
+        height: fit-content;
         text-align: center;
         font-weight: 800;
         font-family:'Courier New', Courier, monospace;
         border: 2px solid black;
-        border-radius: 60%;
+        border-radius: 100px;
         cursor: pointer;
-
-        
-        
-        
-
     }
 
-}
 #mortPay {
     text-align: right;
     margin-right: 10%;
@@ -253,16 +251,230 @@ body {
 }
 
 
+
+.bodyContainer {
+    width: 95%;
+    height: fit-content;
+    margin: 1vh 0vw 2vh 0vw;
+    padding-bottom: 20px;
+    border: 2px solid rgb(212, 207, 207);
+    
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .bodyy {
+        width: 100%;
+        height: fit-content;
+        display: grid;
+        grid-template-columns: 46% 46% ;
+        grid-gap: 2%;
+        text-align: left;
+        margin-top: 3%;
+        justify-content: center;
+        align-items: center;
+        .bodyL .bodyR {
+            width: 40%;
+            height: 10px;
+            
+        }   
+    }
+}
+.divBod {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns:50% 50% ;
+    
+    h3 {
+        font-weight: 200;
+        color: black;
+    }
+    
+}
+
+.divIpt {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns:32% 15% 55% ;
+    
+    h3 {
+        font-weight: 200;
+        color: black;
+    }
+    
+}
+
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: rgb(18, 18, 113);
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px rgb(18, 18, 113);
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .headd {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .gds-tds {
+        
+        width: 30%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        margin-top: 1%;
+        
+        .divRow {
+            display: grid;
+            grid-template-columns: 12% 6% 55% ;
+            align-items: center;
+        }
+    }
+  }
+
+  .switches {
+    width: 60%;
+    height: 100%;
+    margin: 30px 15px 15px 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+       margin-left: 10px; 
+    }
+  }
+
+  .togg {
+    
+    width: fit-content;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 15px 0px 15px;
+    border: 1px solid rgb(212, 207, 207);
+    background-color: rgba(119, 119, 119, 0.216);
+    box-shadow: inset;
+    border-radius: 30px;
+    color: black;
+  }
+.blue-bold {
+    font-size: 14pt;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    color:  rgb(13, 13, 95);
+}
+
+
+
+
+
+
+
+// Report
+
+
 .tables {
     display: flex;
     flex-direction: row;
     width: 100%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 200;
+    th {
+        background-color: rgba(214, 202, 202, 0.87);
+        color: black;
+        text-align: center;
+    }
+    border-collapse: collapse;
     #loanTable, #payTable {
-        margin: 2vw 1vw 0vw 1vw;
-        width: 48%;
+        margin: 2vw 2vw 0vw 2vw;
+        width: 47%;
+        text-align: left;
+        font-size: 14pt;
+        color: black;
+
+        tr {
+            
+            td td {
+                width: 100%;
+                
+        }       
+            }
+            
     }
 }
 #loanTable td, #loanTable th, #payTable td, #payTable th {
-    border: 1px solid #000000;
+    border: 1px solid rgb(170, 164, 164);
     padding: 8px;
+    
   }
+
+.cntr {
+    text-align: center;
+}
