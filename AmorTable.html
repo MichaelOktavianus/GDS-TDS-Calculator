@@ -5,23 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDS TDS CALCULATOR</title>
     <link rel="stylesheet" href="./style/style.css">
+    
 </head>
 <body>
  
-    <div class="container">
+    <div class="container" id="amortContainer">
         <h1>GDS TDS Loan Calculator</h1>
         <div class="opt">
-            <h4 class="Calcu defau">Calculator</h4>
-            <h4 class="Rep defau">Report</h4>
-            <h4 class="AmTab defau">Amortization Table</h4>
+            <h4 class="Calcu defau" id="calcuTab">Calculator</h4>
+            <h4 class="Rep defau" id="repTab">Report</h4>
+            <h4 class="AmTab defau act" id="amortTab">Amortization Table</h4>
         </div>
         
-        <div class="inputContainer">
+        <div class="amortContainer">
+            <div class="loanDet">
+                
+                <div class="divAmort">
+                    <h4>Principal:</h4>
+                    <h4 id="principal">$280,000</h4>
+                </div>
+                <div class="divAmort">
+                    <h4>Annual Interest Rate:</h4>
+                    <h4>$280,000</h4>
+                </div>
+                <div class="divAmort">
+                    <h4>Amortization Period:</h4>
+                    <h4>$280,000</h4>
+                </div>
 
+                <div class="divAmort">
+                    <h4>Payment:</h4>
+                    <h4>$280,000</h4>
+                </div>
+                
+    
+            </div>
+            <div class="payments">
+
+                <div class="payTitle">
+                    
+                    
+                    <div class="divAmort">
+                        <h4>Advance Date:</h4>
+                        <h4>$280,000</h4>
+                    </div>
+                    <div class="divAmort">
+                        <h4>Compounding:</h4>
+                        <h4>$280,000</h4>
+                    </div>
+                    <div class="divAmort">
+                        <h4>Payments Per Year:</h4>
+                        <h4>$280,000</h4>
+                    </div>
+    
+                    <div class="divAmort">
+                        <h4>Payment Frequency:</h4>
+                        <h4>$280,000</h4>
+                    </div>
+                    
+                </div>
+
+                
+            </div>
         </div>
+        
+            <div  id="amortTable">
+                
+                    <div class="tabHead">Pmt #</div>
+                    <div class="tabHead">Date</div>
+                    <div class="tabHead">Days</div>
+                    <div class="tabHead">Payment</div>
+                    <div class="tabHead">Int %</div>
+                    <div class="tabHead">Interest</div>
+                    <div class="tabHead">Principal</div>
+                    <div class="tabHead">Balance</div>
+                    <div class="tabHead">Acc. Int</div>
+                
+            </div>
     </div>
 
 
-    <script src="./AmorTable.js"></script>
+    <script src="./Calculator.js"></script>
 </body>
 </html>

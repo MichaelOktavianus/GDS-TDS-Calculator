@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDS TDS CALCULATOR</title>
     <link rel="stylesheet" href="./style/style.css">
+
+    
+
 </head>
 <body>
  
-    <div class="container">
+    <div class="container" id="calcuContainer">
         <h1>GDS TDS Loan Calculator</h1>
         <div class="opt">
-            <h4 class="Calcu defau">Calculator</h4>
-            <h4 class="Rep defau">Report</h4>
-            <h4 class="AmTab defau">Amortization Table</h4>
+            <h4 class="Calcu defau act" id="calcuTab">Calculator</h4>
+            <h4 class="Rep defau" id="repTab">Report</h4>
+            <h4 class="AmTab defau" id="amortTab">Amortization Table</h4>
         </div>
         <div class="Assumptions">
             <h4 class="assumpText">Assumptions</h4>
@@ -48,7 +51,7 @@
                     <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                     <span class="inputBox">
                         <div class="spann"><h4>$</h4></div>
-                        <input type="text" class="textbox" id="purchasePrice ">
+                        <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice" >
                     </span>
                 </div>
                 <div class="divRow">
@@ -56,7 +59,7 @@
                     <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                     <span class="inputBox">
                         <div class="spann"><h4>$</h4></div>
-                        <input type="text" class="textbox" id="purchasePrice">
+                        <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="durLoan">
                     </span>
                 </div>
                 <div class="divRow">
@@ -64,7 +67,7 @@
                     <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                     <span class="inputBox">
                         <div class="spann"><h4>$</h4></div>
-                        <input type="text" class="textbox" id="purchasePrice">
+                        <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="downPay">
                     </span>
                 </div>
 
@@ -72,7 +75,7 @@
                     <h4>CMHC Ins.</h4>
                     <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                     <span class="inputBox">
-                        <input type="text" class="textbox" id="purchasePrice">
+                        <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="cmhc">
                         <div class="perct"><h4>%</h4></div>
                     </span>
                 </div>
@@ -80,7 +83,7 @@
                     <h4>Estimated Veriable Rate</h4>
                     <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                     <span class="inputBox">
-                        <input type="text" class="textbox" id="purchasePrice">
+                        <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="estVeriable">
                         <div class="perct"><h4>%</h4></div>
                     </span>
                 </div>
@@ -96,7 +99,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divRow">
@@ -104,7 +107,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divRow">
@@ -112,7 +115,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="perct"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
     
@@ -120,14 +123,14 @@
                         <h4>Qualifying Rate</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                             <div class="perct"><h4>%</h4></div>
                         </span>
                     </div>
                     <div class="divRow">
                         <h4>Qualifying Mortgage Payments</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                 </div>
 
@@ -167,7 +170,7 @@
                         <h4>GDS:</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
-                            <input type="text" class="textbox" id="gds">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="gds">
                             <div class="perct"><h4>%</h4></div>
                         </span>
                     </div>
@@ -176,7 +179,7 @@
                         <h4>TDS:</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
-                            <input type="text" class="textbox" id="tds">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="tds">
                             <div class="perct"><h4>%</h4></div>
                         </span>
                     </div>
@@ -186,33 +189,33 @@
                 <div class="bodyL">
                     <div class="divBod">
                         <h4>Yearly Mortgage Payments</h4>
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h4>Property Taxes</h4>
                         
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h4>50% of Yearly Maintenance Fee</h4>
                         
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h4>Heat & Hydro</h4>
                         
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h2 class="blue-bold">Total</h2>
-                        <h2 class="blue-bold" id="mortPay">$82,019</h2>
+                        <h2 class="blue-bold val-text" >$82,019</h2>
                     </div>
                     <div class="divIpt">
                         <h4>Other Debts 1</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -220,7 +223,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -228,12 +231,12 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divBod">
                         <h2 class="blue-bold">Total Other Debts</h2>
-                        <h2 class="blue-bold" id="mortPay">$82,979</h2>
+                        <h2 class="blue-bold val-text" >$82,979</h2>
                     </div>
                     
                     <div class="divIpt">
@@ -241,7 +244,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -249,7 +252,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -257,12 +260,12 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divBod">
                         <h2 class="blue-bold">Total Income</h2>
-                        <h2 class="blue-bold" id="mortPay">$82,979</h2>
+                        <h2 class="blue-bold val-text" >$82,979</h2>
                     </div>
 
 
@@ -279,28 +282,28 @@
                     <div class="divBod">
                         <h4>Land Transfer Tax for Ontario</h4>
                         
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h4>Land Transfer for Toronto</h4>
                         
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h4>First Time Home Buyer Rebate</h4>
                         
-                        <h3 id="mortPay">$1,635</h3>
+                        <h3 class="val-text">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h2 class="blue-bold">Net Land Transfer Tax</h2>
-                        <h2 class="blue-bold" id="mortPay">$0</h2>
+                        <h2 class="blue-bold val-text" >$0</h2>
                     </div>
                     <div class="divIpt">
                         <h4>Estimated Legal and Disb.</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -308,7 +311,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -316,7 +319,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -324,7 +327,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -332,7 +335,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -340,7 +343,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divIpt">
@@ -348,12 +351,12 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
                         </span>
                     </div>
                     <div class="divBod">
                         <h2 class="blue-bold">Estimated Total</h2>
-                        <h2 class="blue-bold" id="mortPay">$3,433</h2>
+                        <h2 class="blue-bold val-text" >$3,433</h2>
                     </div>
                 </div>
             </div>
@@ -363,7 +366,8 @@
            
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="Calculator.js"></script>
+    
 </body>
 </html>

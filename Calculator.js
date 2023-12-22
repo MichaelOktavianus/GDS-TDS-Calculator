@@ -1,10 +1,17 @@
-const CalcuText = document.querySelector("h4.Calcu")
-const RepText = document.querySelector("h4.Rep")
-const AmTabText = document.querySelector("h4.AmTab")
+const CalcuText = document.querySelector("#calcuTab")
+const RepText = document.querySelector("#repTab")
+const AmTabText = document.querySelector("#amortTab")
 
+const contCalcu = document.querySelector("#calcuContainer")
 const comSel = document.querySelector("#CompoundSel")
 const pYearSel = document.querySelector("#PerYearSel")
-const textBox = document.getElementsByClassName("textbox")
+
+
+const purchPrice = document.querySelector("#purchasePrice")
+const repPurchPrice = document.querySelector("#repPurch")
+const principal = document.querySelector("#principal")
+
+const downPay = document.querySelector("#downPay")
 
 CalcuText.addEventListener("click", CalcuClk)
 RepText.addEventListener("click", RepClk)
@@ -12,20 +19,26 @@ AmTabText.addEventListener("click", AmTabClk)
 
 
 
-for (let i=0; i<textBox.length;i++){
-  textBox[i].addEventListener("change",textSep(textBox[i]))
+var path = window.location.pathname;
+var page = path.split("/").pop();
+
+if (page == "index.html") {
+  comSel.value = 'Semi-Annual';
+  pYearSel.value = '12';
+  purchPrice.value = JSON.parse(localStorage.getItem("purchPrice"))
+  downPay.value = JSON.parse(localStorage.getItem("downPay"))
+
+  localStorage.setItem('principal',JSON.stringify(purchPrice.value - downPay.value))
+} else if (page == "Report.html") {
+  if (localStorage.getItem("purchPrice") == "") {
+    repPurchPrice.innerText = 0
+  }else {
+    repPurchPrice.innerText = JSON.parse(localStorage.getItem("purchPrice"))
+  }
+} else if (page == "AmorTable.html") {
+  principal.textContent = JSON.parse(localStorage.getItem("principal"))
 }
 
-
-function selectElement(id, valueToSelect) {    
-    let element = document.getElementById(id);
-    element.value = valueToSelect;
-}
-
-selectElement('CompoundSel', 'Semi-Annual');
-selectElement('PerYearSel', '12');
-
-CalcuText.classList.add('act');
 
 
 function change_page(name){
@@ -35,34 +48,67 @@ function change_page(name){
 function CalcuClk () {
     let index = 0
     change_page("index.html")
+    
+    
 }
 function RepClk () {
     let index = 0
     change_page("Report.html")
-
     
+    repPurchPrice.innerText = JSON.parse(localStorage.getItem("purchPrice"))
 }
 function AmTabClk () {
     let index = 0
     change_page("AmorTable.html")
-
-
+    
     
 }
 
 
-function textSep (tBox) {
-   
-    if (tBox.value != "") {
-      tBox.value = tBox.value.replace(",", "")
-        console.log(tBox.value)
-        if (tBox.value.length % 3 >= 0 ) {
-            
-          tBox.value = addComma(tBox.value, 3, tBox.value.length + 1)
-            console.log(tBox.value)
-        }
-    }
+function removeString (event) {
+  var key = event.which;
+  if((key<48 || key>57) && key != 8) event.preventDefault();
+    
 }
+function isNumber(evt) {
+  
+  
+  localStorage.setItem('purchPrice',JSON.stringify(purchPrice.value))
+  localStorage.setItem('principal',JSON.stringify(purchPrice.value - downPay.value))
+
+  localStorage.setItem('downPay',JSON.stringify(downPay.value))
+  localStorage.setItem('principal',JSON.stringify(purchPrice.value - downPay.value))
+  
+
+  if (evt.target.value != "") {
+    var value = evt.target.value.replace(/,/g,"");
+    evt.target.dataset.currentValue=parseInt(value);
+    var caret = value.length-1;
+    while((caret-3)>-1)
+    {
+        caret -= 3;
+        value = value.split('');
+        value.splice(caret+1,0,",");
+        value = value.join('');
+    }
+    evt.target.value = value;
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function addComma (num, per, places) {
@@ -101,5 +147,4 @@ function addComma (num, per, places) {
     // (A6) RETURN "WHOLE WITH COMMA" PLUS DECIMAL PLACES
     return aComma ;
   }
-
   

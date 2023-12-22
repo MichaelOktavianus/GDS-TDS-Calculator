@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDS TDS CALCULATOR</title>
     <link rel="stylesheet" href="./style/style.css">
+    
 </head>
 <body>
  
-    <div class="container">
+    <div class="container" id="repContainer">
         <h1>GDS TDS Loan Calculator</h1>
         <div class="opt">
-            <h4 class="Calcu defau">Calculator</h4>
-            <h4 class="Rep defau">Report</h4>
-            <h4 class="AmTab defau">Amortization Table</h4>
+            <h4 class="Calcu defau" id="calcuTab">Calculator</h4>
+            <h4 class="Rep defau act" id="repTab">Report</h4>
+            <h4 class="AmTab defau" id="amortTab">Amortization Table</h4>
         </div>
         
         <div class="tables">
@@ -24,7 +25,7 @@
                 <tr style="height: 60px;">
                     <td style="width: 65%; border-collapse: collapse;">Purchase Price (estimated)</td>
                     <td style="width: 15%;" class="cntr"></td>
-                    <td style="width: 30%;" class="cntr">500,000</td>
+                    <td style="width: 30%;" class="cntr" id="repPurch"></td>
                 </tr>
                 <tr style="height: 60px;">
                     <td style="width: 65%; border-collapse: collapse;">Duration of Loan (in months)</td>
@@ -87,13 +88,160 @@
                 </tr>
                 <tr style="height: 60px;">
                     <td style="width: 80%; border-collapse: collapse;">TDS</td>
-                    <td style="width: 20%;" class="cntr">66.4%</td>
+                    <td style="width: 20%;" class="cntr">66.4% </td>
                 </tr>
             </table>
         </div>
+
+        <div class="report-summary">
+            <div class="repTitle">
+                <h3>Report Summary</h3>
+            </div>
+            <div class="repComm">
+                <h4>*Total yearly payments = loan payments plus property tax payments</h4>
+            </div>
+
+            <div class="repSummary">
+                <div class="sumL">
+                    <div class="divSum">
+                        <h4 >Yearly Mortgage Payments</h4>
+                        <h4  class="val-text">$19,619</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Property Taxes</h4>
+                        <h4  class="val-text">$33,600</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >50% of Maintenance fees</h4>
+                        <h4  class="val-text">$14,400</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Heat & Hydro</h4>
+                        <h4  class="val-text">$14,400</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Total</h4>
+                        <h4  class="val-text" id="totFee">$82,019</h4>
+                    </div>
+
+                    <div class="spc"></div>
+
+                    <div class="divSum">
+                        <h4 >Other Debts 1</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Other Debts 2</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Other Debts 3</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Total Other Debts</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    
+                    <div class="spc"></div>
+
+                    <div class="divSum">
+                        <h4 >Income 1</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Income 2</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Income 3</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Total Income</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="spc"></div>
+                </div>
+                
+                
+
+
+                <div class="sumR">
+                    <div class="divSum">
+                        <h4 class="bold-text" >Estimated Closing costs</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Land Transfer Tax for Ontario</h4>
+                        <h4  class="val-text">$33,600</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Land Transfer Tax for Toronto</h4>
+                        <h4  class="val-text">$14,400</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >First Time Home Buyer Rebate</h4>
+                        <h4  class="val-text">$14,400</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Net Land Transfer Tax</h4>
+                        <h4  class="val-text" id="totFee">$82,019</h4>
+                    </div>
+
+                    <div class="spc"></div>
+
+                    <div class="divSum">
+                        <h4 >Estimated Legal and Disb.</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Estimated Title Insurance</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Electronic Registration</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Registration</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    
+                    <div class="spc"></div>
+
+                    <div class="divSum">
+                        <h4 >Appraisal</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Lenders Fee</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Brokers Fee</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="divSum">
+                        <h4 >Estimated Total</h4>
+                        <h4  class="val-text">$3,433</h4>
+                    </div>
+                    <div class="spc"></div>
+                </div>
+            </div>
+            
+            <button class="pdf-button" id="pdfButton">Generate PDF Result</button>
+
+
+        </div>
+
+
+        
     </div>
+    
+    
 
-
-    <script src="./Report.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="./Calculator.js"></script>
+    
 </body>
 </html>
