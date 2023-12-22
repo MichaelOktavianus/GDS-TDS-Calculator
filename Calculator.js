@@ -74,10 +74,14 @@ function isNumber(evt) {
   
   
   localStorage.setItem('purchPrice',JSON.stringify(purchPrice.value))
-  localStorage.setItem('principal',JSON.stringify(purchPrice.value - downPay.value))
+  let tempPri = purchPrice.value.replace(/,/g,"");
+  let tempPay = downPay.value.replace(/,/g,"");
+  localStorage.setItem('principal',JSON.stringify(tempPri - tempPay))
 
   localStorage.setItem('downPay',JSON.stringify(downPay.value))
-  localStorage.setItem('principal',JSON.stringify(purchPrice.value - downPay.value))
+  tempPri = purchPrice.value.replace(/,/g,"");
+  tempPay = downPay.value.replace(/,/g,"");
+  localStorage.setItem('principal',JSON.stringify(tempPri - tempPay))
   
 
   if (evt.target.value != "") {
