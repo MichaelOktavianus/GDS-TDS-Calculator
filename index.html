@@ -75,8 +75,9 @@
                     <h4>CMHC Ins.</h4>
                     <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                     <span class="inputBox">
-                        <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="cmhc">
-                        <div class="perct"><h4>%</h4></div>
+                        <div class="spann"><h4>$</h4></div>
+                        <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="cmHc">
+                       
                     </span>
                 </div>
                 <div class="divRow">
@@ -99,7 +100,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="estProTax">
                         </span>
                     </div>
                     <div class="divRow">
@@ -107,7 +108,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="spann"><h4>$</h4></div>
-                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="maintFee">
                         </span>
                     </div>
                     <div class="divRow">
@@ -115,7 +116,7 @@
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
                             <div class="perct"><h4>$</h4></div>
-                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="heHy">
                         </span>
                     </div>
     
@@ -123,14 +124,14 @@
                         <h4>Qualifying Rate</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
                         <span class="inputBox">
-                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="purchasePrice">
+                            <input type="text" class="textbox" onkeypress="return removeString(event)" onkeyup="return isNumber(event)" id="qualRate">
                             <div class="perct"><h4>%</h4></div>
                         </span>
                     </div>
                     <div class="divRow">
                         <h4>Qualifying Mortgage Payments</h4>
                         <div data-tooltip="You can put Tooltip here!" class="toolTip">i</div>
-                        <h3 class="val-text">$1,635</h3>
+                        <h3 class="val-text" id="qualMort">$1,635</h3>
                     </div>
                 </div>
 
@@ -189,26 +190,26 @@
                 <div class="bodyL">
                     <div class="divBod">
                         <h4>Yearly Mortgage Payments</h4>
-                        <h3 class="val-text">$1,635</h3>
+                        <h3 class="val-text">0</h3>
                     </div>
                     <div class="divBod">
                         <h4>Property Taxes</h4>
                         
-                        <h3 class="val-text">$1,635</h3>
+                        <h3 class="val-text" id="yProTax">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h4>50% of Yearly Maintenance Fee</h4>
                         
-                        <h3 class="val-text">$1,635</h3>
+                        <h3 class="val-text" id="yMaintFee">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h4>Heat & Hydro</h4>
                         
-                        <h3 class="val-text">$1,635</h3>
+                        <h3 class="val-text" id="yHeHy">$1,635</h3>
                     </div>
                     <div class="divBod">
                         <h2 class="blue-bold">Total</h2>
-                        <h2 class="blue-bold val-text" >$82,019</h2>
+                        <h2 class="blue-bold val-text" id="totPay">0</h2>
                     </div>
                     <div class="divIpt">
                         <h4>Other Debts 1</h4>
