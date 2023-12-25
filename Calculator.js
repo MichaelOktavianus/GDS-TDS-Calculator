@@ -1,4 +1,4 @@
-
+const resetBtn = document.querySelector("#resetButton")
 
 const CalcuText = document.querySelector("#calcuTab")
 const RepText = document.querySelector("#repTab")
@@ -31,11 +31,16 @@ const repCmHc = document.querySelector("#repCmHc")
 const perCmHc = document.querySelector("#perCmHc")
 
 const repLoanAmo = document.querySelector("#repLoanAmo")
+const qualMort = document.querySelector("#qualMort")
+const repQualMort = document.querySelector("#repQualMort")
+const yMortPay = document.querySelector("#yMortPay")
+const repMortPay = document.querySelector("#repMortPay")
 
 const estVeriable = document.querySelector("#estVeriable")
 const repEstVeriable = document.querySelector("#repEstVeriable")
 const amortIntRate = document.querySelector("#amortIntRate")
 
+const amortPay = document.querySelector("#amortPay")
 
 const estProTax = document.querySelector("#estProTax")
 const repEstProTax = document.querySelector("#repEstProTax")
@@ -128,11 +133,112 @@ var path = window.location.pathname;
 var page = path.split("/").pop();
 
 if (page == "index.html") {
+  
+  
+  
 
   CompoundSel.value = 'Semi-Annual';
   PerYearSel.value = '12';
   localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
   localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+  
+  CompoundSel.addEventListener("change", () => {
+    localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
+  })
+  PerYearSel.addEventListener("change", () => {
+    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+  })
+
+  if (JSON.parse(localStorage.getItem("gtaResid")) == "" || JSON.parse(localStorage.getItem("gtaResid")) == null || JSON.parse(localStorage.getItem("gtaResid")) == undefined) {
+    gtaResid.checked = false
+  }else {
+    gtaResid.checked = JSON.parse(localStorage.getItem("gtaResid"))
+  }
+    
+  if (JSON.parse(localStorage.getItem("firstTime")) == "" || JSON.parse(localStorage.getItem("firstTime")) == null || JSON.parse(localStorage.getItem("firstTime")) == undefined) {
+    firstTime.checked = false
+  }else {
+    firstTime.checked = JSON.parse(localStorage.getItem("firstTime"))
+  }
+
+  if (JSON.parse(localStorage.getItem("refin")) == "" || JSON.parse(localStorage.getItem("refin")) == null || JSON.parse(localStorage.getItem("refin")) == undefined) {
+    refin.checked = false
+  }else {
+    refin.checked = JSON.parse(localStorage.getItem("refin"))
+  }
+
+
+  
+  if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0  || JSON.parse(localStorage.getItem("taxOntar")) == undefined) {
+    taxOntar.textContent = "$0"
+    netLand.textContent = "$0"
+  }else {
+    taxOntar.textContent =`$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
+
+    if (gtaResid.checked == true && firstTime.checked == true && refin.checked == true  ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == true && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((((JSON.parse(localStorage.getItem("taxOntar"))) * 2) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))) * 2)}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+  
+  
+    else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+  
+    else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+  }
+  
 
 gtaResid.addEventListener("click", ()=> {
   localStorage.setItem('gtaResid',JSON.stringify(gtaResid.checked))
@@ -144,137 +250,214 @@ gtaResid.addEventListener("click", ()=> {
       localStorage.setItem('taxToron',JSON.stringify(0))
     }
   }else {
-      if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-        taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-        localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-      }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-        taxToron.textContent = "$0"
-        localStorage.setItem('taxToron',JSON.stringify(0))
-      }
-
-      if (firstTime.checked == true) {
-    
-        if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-          taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-          localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-          ftRebate.textContent = `$${addSeparator((compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
-          localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-          netLand.textContent = `$${addSeparator(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-          ftRebate.textContent = `$${addSeparator((compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
-          localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-          
-          taxToron.textContent = "$0"
-          localStorage.setItem('taxToron',JSON.stringify(0))
-          netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        }
-        
-      }else if (JSON.parse(localStorage.getItem("firstTime")) == false) {
-        ftRebate.textContent = "$0"
-        localStorage.setItem('ftRebate',JSON.stringify(0))
-        if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-          taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-          localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-          if (refin.checked == true) {
-            netLand.textContent = "$0"
-            localStorage.setItem('netLand',JSON.stringify(0))
-          }else {
-            netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) * 2))}`
-            localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) * 2))
-          }
-        }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-          if (refin.checked == true) {
-            netLand.textContent = "$0"
-            localStorage.setItem('netLand',JSON.stringify(0))
-          }else {
-            netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
-            localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-          }
-          
-          taxToron.textContent = "$0"
-          localStorage.setItem('taxToron',JSON.stringify(0))
-        }
       
+    if (gtaResid.checked == true && firstTime.checked == true && refin.checked == true  ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == true && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((((JSON.parse(localStorage.getItem("taxOntar"))) * 2) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))) * 2)}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
     }
-    
-    
+  
+  
+    else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+  
+    else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
   }
 })
 firstTime.addEventListener("click", ()=> {
   localStorage.setItem('firstTime',JSON.stringify(firstTime.checked))
   
-  if (firstTime.checked == true) {
     if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0) {
      ftRebate.textContent = "$0"
      localStorage.setItem('ftRebate',JSON.stringify(0))
     }else {
       
-      if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-        ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-      }else if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-        ftRebate.textContent = `$${addSeparator((compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
-        localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        netLand.textContent = `$${addSeparator(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('netLand',JSON.stringify(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-      }
-    }
-  }else if (JSON.parse(localStorage.getItem("firstTime")) == false) {
-    if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0) {
+        
+    if (gtaResid.checked == true && firstTime.checked == true && refin.checked == true  ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == true && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((((JSON.parse(localStorage.getItem("taxOntar"))) * 2) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
       ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
       localStorage.setItem('ftRebate',JSON.stringify(0))
-    }else {
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
       ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))) * 2)}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
       localStorage.setItem('ftRebate',JSON.stringify(0))
-      if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-        netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) * 2))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) * 2))
-      }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-        netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-      }
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
     }
-    
-  }
-
+  
+  
+    else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+  
+    else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+    }
 })
 refin.addEventListener("click", ()=> {
+  
   localStorage.setItem('refin',JSON.stringify(refin.checked))
   if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0 ) {
       netLand.textContent = "$0"
       localStorage.setItem('netLand',JSON.stringify(0))
   }else {
-    if (refin.checked == true) {
+    
+      
+    if (gtaResid.checked == true && firstTime.checked == true && refin.checked == true  ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
       netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
       localStorage.setItem('netLand',JSON.stringify(0))
-    }else if (refin.checked == false) {
-      if (JSON.parse(localStorage.getItem("firstTime")) == false) {
-        
-        if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-
-          netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) * 2))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) * 2))
-        }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-          netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-
-        }
-      }else if (JSON.parse(localStorage.getItem("firstTime")) == true) {
-        
-        if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-
-          netLand.textContent = `$${addSeparator(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-          netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-
-        }
-      }
+    }else if (gtaResid.checked == true && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((((JSON.parse(localStorage.getItem("taxOntar"))) * 2) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+      ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))) * 2)}`
+      localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+  
+  
+    else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+      netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+    }
+  
+    else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == true ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = "$0"
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(0))
+    }else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == false ) {
+      taxToron.textContent = "$0"
+      ftRebate.textContent = "$0"
+      netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
+      localStorage.setItem('taxToron',JSON.stringify(0))
+      localStorage.setItem('ftRebate',JSON.stringify(0))
+      localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
     }
     
   }
@@ -347,11 +530,18 @@ refin.addEventListener("click", ()=> {
     qualRate.value = JSON.parse(localStorage.getItem("qualRate"))
 
   }
+  if (JSON.parse(localStorage.getItem("QPMT")) == "" || JSON.parse(localStorage.getItem("QPMT")) == 0 || JSON.parse(localStorage.getItem("QPMT")) == null) {
+    qualMort.textContent = "$0"
+  }else {
+    qualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
+    
+  }
+  
 
   if (JSON.parse(localStorage.getItem("totPay")) == "" || JSON.parse(localStorage.getItem("totPay")) == null || JSON.parse(localStorage.getItem("totPay")) == 0) {
     totPay.textContent = "$0"
   }else {
-    totPay.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("totPay")))}`
+    totPay.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("totPay"))))}`
   }
 
   if (JSON.parse(localStorage.getItem("otDebt1")) == "" || JSON.parse(localStorage.getItem("otDebt1")) == null || JSON.parse(localStorage.getItem("otDebt1")) == 0) {
@@ -369,10 +559,15 @@ refin.addEventListener("click", ()=> {
   }else {
     otDebt3.value = addSeparator(JSON.parse(localStorage.getItem("otDebt3")))
   }
+  if (JSON.parse(localStorage.getItem("yMortPay")) == "" || JSON.parse(localStorage.getItem("yMortPay")) == null) {
+    yMortPay.textContent = "$0" 
+  }else { 
+    yMortPay.innerText = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("yMortPay"))))}`
+  }
   if (JSON.parse(localStorage.getItem("totDebt")) == "" || JSON.parse(localStorage.getItem("totDebt")) == null || JSON.parse(localStorage.getItem("totDebt")) == 0) {
     totDebt.textContent = "$0"
   }else {
-    totDebt.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("totDebt")))}`
+    totDebt.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("totDebt"))))}`
   }
 
   if (JSON.parse(localStorage.getItem("income1")) == "" || JSON.parse(localStorage.getItem("income1")) == null || JSON.parse(localStorage.getItem("income1")) == 0) {
@@ -395,117 +590,8 @@ refin.addEventListener("click", ()=> {
   }else {
     totIncome.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("totIncome")))}`
   }
-  if (JSON.parse(localStorage.getItem("gtaResid")) == "" || JSON.parse(localStorage.getItem("gtaResid")) == null || JSON.parse(localStorage.getItem("gtaResid")) == undefined) {
-    gtaResid.checked = false
-  }else {
-    gtaResid.checked = JSON.parse(localStorage.getItem("gtaResid"))
-    
-    if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0) {
-      taxToron.textContent = "$0"
-      localStorage.setItem('taxToron',JSON.stringify(0))
-      netLand.textContent = "$0"
-      localStorage.setItem('netLand',JSON.stringify(0))
-    }else {
-      if (firstTime.checked == true) {
-        if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-          taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-          localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-          netLand.textContent = `$${addSeparator(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-          taxToron.textContent = "$0"
-          localStorage.setItem('taxToron',JSON.stringify(0))
-          netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(`$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`))
-        }
-      }else {
-        if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-          taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-          localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-          netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) * 2))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) * 2))
-        }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-          taxToron.textContent = "$0"
-          localStorage.setItem('taxToron',JSON.stringify(0))
-          netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-        }
-      }
-      
-    }
-    
+  
 
-
-  }
-  if (JSON.parse(localStorage.getItem("firstTime")) == "" || JSON.parse(localStorage.getItem("firstTime")) == null || JSON.parse(localStorage.getItem("firstTime")) == undefined) {
-    firstTime.checked = false
-  }else {
-    firstTime.checked = JSON.parse(localStorage.getItem("firstTime"))
-    if (JSON.parse(localStorage.getItem("firstTime")) == true) {
-      
-      if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-        ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-      }else if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-        ftRebate.textContent = `$${addSeparator((compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
-        localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        netLand.textContent = `$${addSeparator(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('netLand',JSON.stringify(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-      }
-        
-    }else if (JSON.parse(localStorage.getItem("firstTime")) == false) {
-      ftRebate.textContent = "$0"
-      localStorage.setItem('ftRebate',JSON.stringify(0))
-      if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-        netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-      }else if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-        netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) * 2))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) * 2))
-      }
-    }
-  }
-  if (JSON.parse(localStorage.getItem("refin")) == "" || JSON.parse(localStorage.getItem("refin")) == null || JSON.parse(localStorage.getItem("refin")) == undefined) {
-    refin.checked = false
-  }else {
-    refin.checked = JSON.parse(localStorage.getItem("refin"))
-    if (refin.checked == true) {
-      netLand.textContent = "$0"
-      localStorage.setItem('netLand',JSON.stringify(0))
-    }
-  }
-  if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0) {
-    taxOntar.textContent = "$0"
-    netLand.textContent = "$0"
-    localStorage.setItem('netLand',JSON.stringify(0))
-  }else {
-    taxOntar.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-    if (refin.checked == true) {
-      netLand.textContent = "$0"
-      localStorage.setItem('netLand',JSON.stringify(0))
-    }else {
-      if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-        if (JSON.parse(localStorage.getItem("firstTime")) == false) {
-          netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-        }else {
-          netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        }
-      }else if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-        if (JSON.parse(localStorage.getItem("firstTime")) == false) {
-          netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) * 2))}`
-          localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) * 2))
-        }else {
-          netLand.textContent = `$${addSeparator(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-          localStorage.setItem('netLand',JSON.stringify(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        }
-      }
-    }
-   
-  }
 
   if (JSON.parse(localStorage.getItem("estLegal")) == "" || JSON.parse(localStorage.getItem("estLegal")) == null || JSON.parse(localStorage.getItem("estLegal")) == 0) {
     estLegal.value = ""
@@ -562,7 +648,46 @@ refin.addEventListener("click", ()=> {
 
 
 } else if (page == "Report.html") {
-
+  
+  pdfButton.addEventListener('click', function(e){
+    generatePDF(e)
+    })
+  function generatePDF(e) {
+    // var printSection = e.target.dataset.print;
+    // var x = printSection.slice(0,printSection.indexOf('-'))
+    // var element = document.getElementById('pdf-area');
+    var element = document.getElementById('repContainer');
+    element.classList.add('print-action')
+      var opt = {
+        filename:     'gds-tds-calculator-report.pdf',
+        // enableLinks: true,
+        margin: [.12, .12, .12, .12],
+        pagebreak: {mode:['avoid-all','css'], after: '.pdf-page-break-after',before: '.pdf-page-break-before' },
+        // pagebreak: {mode:'css'},
+        image: {type: 'jpeg', quality: .98},
+        html2canvas: {scale: 2,logging: false,useCORS: true,},
+        jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait', compressPDF: false},
+      };
+      // $('.lpc-wrapper').removeClass('zeroHeight');
+    //   document.querySelector('.loader-container').style.display = 'flex';
+      // barChart.setSize(400,300);
+      // columnChart3d.setSize(800,300);
+      // barChart.reflow();
+      // columnChart3d.reflow();
+      setTimeout(function(){
+      // html2pdf().set(opt).from(element).output('datauristring').then(function(val){ // datauristring blob
+      html2pdf().set(opt).from(element).save().then(function(val){ // datauristring blob
+        element.classList.remove('pdf-button');
+        // $('.lpc-wrapper').addClass('zeroHeight');
+      //   document.querySelector('.loader-container').style.display = 'none';
+        
+        
+      });
+      },1000)
+      
+     
+    }
+  
 
 
   if (JSON.parse(localStorage.getItem("purchPrice")) == "" || JSON.parse(localStorage.getItem("purchPrice")) == null) {
@@ -611,6 +736,25 @@ refin.addEventListener("click", ()=> {
     repEstVeriable.innerText = `${(Math.round((JSON.parse(localStorage.getItem("estVeriable"))) * 100) / 100).toFixed(2)}%`
   }
 
+  if (JSON.parse(localStorage.getItem("PMT")) == "" || JSON.parse(localStorage.getItem("PMT")) == 0 || JSON.parse(localStorage.getItem("PMT")) == null) {
+    repMortPay.innerText = "$0"
+  }else {
+    repMortPay.innerText = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("PMT"))))}`
+    
+  }
+  if (JSON.parse(localStorage.getItem("yMortPay")) == "" || JSON.parse(localStorage.getItem("yMortPay")) == 0 || JSON.parse(localStorage.getItem("yMortPay")) == null) {
+    repYearMort.innerText = "$0" 
+  }else {
+    repYearMort.innerText = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("yMortPay"))))}`
+    
+  }
+
+  if (JSON.parse(localStorage.getItem("QPMT")) == "" || JSON.parse(localStorage.getItem("QPMT")) == 0 || JSON.parse(localStorage.getItem("QPMT")) == null) {
+    repQualMort.textContent = "$0"
+  }else {
+    repQualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
+    
+  }
 
   if (JSON.parse(localStorage.getItem("estProTax")) == "" || JSON.parse(localStorage.getItem("estProTax")) == null) {
     repEstProTax.innerText = "$0" 
@@ -642,10 +786,11 @@ refin.addEventListener("click", ()=> {
   }else { 
     repYearHeHy.innerText = `$${addSeparator(JSON.parse(localStorage.getItem("yHeHy")))}`
   }
+  
   if (JSON.parse(localStorage.getItem("totPay")) == "" || JSON.parse(localStorage.getItem("totPay")) == null) {
     totFee.innerText = "$0" 
   }else { 
-    totFee.innerText = `$${addSeparator(JSON.parse(localStorage.getItem("totPay")))}`
+    totFee.innerText = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("totPay"))))}`
   }
 
   if (JSON.parse(localStorage.getItem("otDebt1")) == "" || JSON.parse(localStorage.getItem("otDebt1")) == null || JSON.parse(localStorage.getItem("otDebt1")) == 0) {
@@ -666,7 +811,7 @@ refin.addEventListener("click", ()=> {
   if (JSON.parse(localStorage.getItem("totDebt")) == "" || JSON.parse(localStorage.getItem("totDebt")) == null || JSON.parse(localStorage.getItem("totDebt")) == 0) {
     repTotDebt.textContent = "$0"
   }else { 
-    repTotDebt.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("totDebt")))}`
+    repTotDebt.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("totDebt"))))}`
   }
 
   if (JSON.parse(localStorage.getItem("income1")) == "" || JSON.parse(localStorage.getItem("income1")) == null || JSON.parse(localStorage.getItem("income1")) == 0) {
@@ -687,7 +832,7 @@ refin.addEventListener("click", ()=> {
   if (JSON.parse(localStorage.getItem("totIncome")) == "" || JSON.parse(localStorage.getItem("totIncome")) == null || JSON.parse(localStorage.getItem("totIncome")) == 0) {
     repTotInc.textContent = "$0"
   }else {
-    repTotInc.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("totIncome")))}`
+    repTotInc.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("totIncome"))))}`
   }
 
   if (JSON.parse(localStorage.getItem("qualRate")) == "" || JSON.parse(localStorage.getItem("qualRate")) == null) {
@@ -723,7 +868,7 @@ refin.addEventListener("click", ()=> {
   }else {
     repFirstRebate.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("ftRebate")))}`
   }
-  if (JSON.parse(localStorage.getItem("netLand")) == "" || JSON.parse(localStorage.getItem("netLand")) == null || JSON.parse(localStorage.getItem("netLand")) == 0 ) {
+  if (JSON.parse(localStorage.getItem("netLand")) == undefined || JSON.parse(localStorage.getItem("netLand")) == "" || JSON.parse(localStorage.getItem("netLand")) == null || JSON.parse(localStorage.getItem("netLand")) == 0 ) {
     repTotTax.textContent = "$0"
   }else {
     repTotTax.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("netLand")))}`
@@ -773,11 +918,11 @@ refin.addEventListener("click", ()=> {
 
 
 } else if (page == "AmorTable.html") {
-  if (JSON.parse(localStorage.getItem("principal")) == "" || JSON.parse(localStorage.getItem("principal")) == null) {
+  if (JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null) {
     principal.textContent = "$0" 
   }else {
     
-    principal.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("principal")))}`
+    principal.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("repLoanAmo")))}`
   }
   if (JSON.parse(localStorage.getItem("estVeriable")) == "" || JSON.parse(localStorage.getItem("estVeriable")) == null) {
     amortIntRate.textContent = "0.0%" 
@@ -788,7 +933,7 @@ refin.addEventListener("click", ()=> {
   if (JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0) {
     amortPeriod.innerText = 0
   }else {
-    amortPeriod.innerText = (JSON.parse(localStorage.getItem("durLoan")) / 12 >= 1) ? ((JSON.parse(localStorage.getItem("durLoan")) / 12)) : ((JSON.parse(localStorage.getItem("durLoan")) / 12)).toPrecision(2)
+    amortPeriod.innerText = (JSON.parse(localStorage.getItem("durLoan")) / 12 >= 1) ? ((JSON.parse(localStorage.getItem("durLoan")) / 12).toFixed(2)) : ((JSON.parse(localStorage.getItem("durLoan")) / 12).toFixed(2))
   }
 
   if (JSON.parse(localStorage.getItem("Compound")) == "" || JSON.parse(localStorage.getItem("Compound")) == null) {
@@ -810,6 +955,15 @@ refin.addEventListener("click", ()=> {
   }else {
     createTable(JSON.parse(localStorage.getItem("durLoan")))
   }
+
+  if (JSON.parse(localStorage.getItem("PMT")) == "" || JSON.parse(localStorage.getItem("PMT")) == null) {
+    amortPay.innerText = "$0" 
+  }else {
+    
+    amortPay.innerText = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("PMT"))))}`
+  }
+
+  
 }
 
 
@@ -866,6 +1020,8 @@ function isNumber(evt) {
   localStorage.setItem('income1',JSON.stringify(income1.value.replace(/,/g,"")))
   localStorage.setItem('income2',JSON.stringify(income2.value.replace(/,/g,"")))
   localStorage.setItem('income3',JSON.stringify(income3.value.replace(/,/g,"")))
+
+
   
   localStorage.setItem('estLegal',JSON.stringify(estLegal.value.replace(/,/g,"")))
   localStorage.setItem('estInsur',JSON.stringify(estInsur.value.replace(/,/g,"")))
@@ -881,6 +1037,7 @@ function isNumber(evt) {
   let esTot = +estLegal.value.replace(/,/g,"") + +estInsur.value.replace(/,/g,"") + +electReg.value.replace(/,/g,"") + +Registration.value.replace(/,/g,"") + +Appraisal.value.replace(/,/g,"") + +lendersFee.value.replace(/,/g,"") + +brokersFee.value.replace(/,/g,"")
   localStorage.setItem('estTotal',JSON.stringify(esTot))
   estTotal.textContent = `$${addSeparator(esTot)}`
+
 
   let otDeb1 = otDebt1.value.replace(/,/g,"")
   let otDeb2 = otDebt2.value.replace(/,/g,"")
@@ -907,7 +1064,7 @@ function isNumber(evt) {
   
 
   taxOntar.textContent = `$${addSeparator(Math.round(+(firs55 * 0.005) + +(to250 * 0.01) + +(to400 * 0.015) + +(to2mil * 0.02) + +(over2mil * 0.025)))}`
-  netLand.textContent = compareFT(taxOntar.textContent)
+  
   localStorage.setItem('netLand',JSON.stringify(compareFT(taxOntar.textContent)))
   localStorage.setItem('taxOntar',JSON.stringify((taxOntar.textContent.replace(/,/g,"")).replace("$","")))
   function compareTax (inc,price) {
@@ -925,6 +1082,14 @@ function isNumber(evt) {
   let mtFee = 0
   let hHy = 0
   
+  if (JSON.parse(localStorage.getItem("PMT")) == "" || JSON.parse(localStorage.getItem("PMT")) == null || JSON.parse(localStorage.getItem("PMT")) == 0 || JSON.parse(localStorage.getItem("PMT")) == undefined) {
+
+    yMortPay.textContent = "$0"
+  }else {
+    ymPay = JSON.parse(localStorage.getItem("PMT")) * PerYearSel.value
+    yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
+    localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
+  }
 
   if (estProTax.value.replace(/,/g,"") != 0) {
     prTax = estProTax.value.replace(/,/g,"") * 12
@@ -939,20 +1104,35 @@ function isNumber(evt) {
     yHeHy.textContent = `$${addSeparator(hHy)}`
   }
   
-  localStorage.setItem('principal',JSON.stringify(tempPri - tempPay))
+ 
+  if (JSON.parse(localStorage.getItem("estVeriable")) == null || JSON.parse(localStorage.getItem("estVeriable")) == 0 || JSON.parse(localStorage.getItem("estVeriable")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
+    localStorage.setItem('PMT',0)
+    yMortPay.textContent = "$0"
+  }else {
+    localStorage.setItem('PMT',JSON.stringify(PMTT(JSON.parse(localStorage.getItem("estVeriable")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo")) )))
+  }
+  
+  if (JSON.parse(localStorage.getItem("qualRate")) == null || JSON.parse(localStorage.getItem("qualRate")) == 0 || JSON.parse(localStorage.getItem("qualRate")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
+    localStorage.setItem('QPMT',0)
+    qualMort.textContent = "$0"
+  }else {
+    localStorage.setItem('QPMT',JSON.stringify(PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo")) )))
+  }
+  
+
   localStorage.setItem('yProTax',JSON.stringify((yProTax.textContent.replace(/,/g,"")).replace("$","")))
   localStorage.setItem('yMaintFee',JSON.stringify((yMaintFee.textContent.replace(/,/g,"")).replace("$","")))
   localStorage.setItem('yHeHy',JSON.stringify((yHeHy.textContent.replace(/,/g,"")).replace("$","")))
 
-  let toPay = +prTax + +mtFee + +hHy + +ymPay
+  let toPay = Math.round(+ymPay + +prTax + +mtFee + +hHy)   
   totPay.textContent = `$${addSeparator(toPay)}`
   localStorage.setItem('totPay',JSON.stringify((totPay.textContent.replace(/,/g,"")).replace("$","")))
 
-  let toDeb = +otDeb1 + +otDeb2 + +otDeb3 + +toPay
+  let toDeb = Math.round(+otDeb1 + +otDeb2 + +otDeb3 + +toPay)
   totDebt.textContent = `$${addSeparator(toDeb)}`
   localStorage.setItem('totDebt',JSON.stringify((totDebt.textContent.replace(/,/g,"")).replace("$","")))
 
-  let toInc = +inc1 + +inc2 + +inc3
+  let toInc = Math.round(+inc1 + +inc2 + +inc3)
   totIncome.textContent = `$${addSeparator(toInc)}`
   localStorage.setItem('totIncome',JSON.stringify((totIncome.textContent.replace(/,/g,"")).replace("$","")))
 
@@ -975,79 +1155,74 @@ function isNumber(evt) {
   localStorage.setItem('repTds',JSON.stringify(toTds))
 
 
-  if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0 || JSON.parse(localStorage.getItem("gtaResid")) == false) {
-    taxToron.textContent = "$0"
-    localStorage.setItem('taxToron',JSON.stringify(0))
-    if (firstTime.checked == true) {
-      ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-    }
-  }else {
-    if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-      taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-      localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-    }
-    if (firstTime.checked == true) {
-      if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0) {
-       ftRebate.textContent = "$0"
-       localStorage.setItem('ftRebate',JSON.stringify(0))
-      }else {
-        if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-          ftRebate.textContent = `$${addSeparator((compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
-          localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-        }
-      }
-    }else if (JSON.parse(localStorage.getItem("firstTime")) == false) {
-      ftRebate.textContent = "$0"
-      localStorage.setItem('ftRebate',JSON.stringify(0))
-    }
+
+    
+  if (gtaResid.checked == true && firstTime.checked == true && refin.checked == true  ) {
+    taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+    ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+    netLand.textContent = "$0"
+    localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+    localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+    localStorage.setItem('netLand',JSON.stringify(0))
+  }else if (gtaResid.checked == true && firstTime.checked == true && refin.checked == false ) {
+    taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+    ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+    netLand.textContent = `$${addSeparator((((JSON.parse(localStorage.getItem("taxOntar"))) * 2) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+    localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+    localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+    localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+  }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == true ) {
+    taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+    ftRebate.textContent = "$0"
+    netLand.textContent = "$0"
+    localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+    localStorage.setItem('ftRebate',JSON.stringify(0))
+    localStorage.setItem('netLand',JSON.stringify(0))
+  }else if (gtaResid.checked == true && firstTime.checked == false && refin.checked == false ) {
+    taxToron.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
+    ftRebate.textContent = "$0"
+    netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))) * 2)}`
+    localStorage.setItem('taxToron',JSON.stringify(taxToron.textContent.replace(/,/g,"")).replace("$",""))
+    localStorage.setItem('ftRebate',JSON.stringify(0))
+    localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
   }
 
-  if (firstTime.checked == true) {
-    
-    if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-      taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-      localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-      ftRebate.textContent = `$${addSeparator((compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
-      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-      netLand.textContent = `$${addSeparator(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-      localStorage.setItem('netLand',JSON.stringify(+JSON.parse(localStorage.getItem("taxOntar")) + +JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-    }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-      ftRebate.textContent = `$${addSeparator((compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
-      localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-      taxToron.textContent = "$0"
-      localStorage.setItem('taxToron',JSON.stringify(0))
-      netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
-      localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
-    }
-    
-  }else if (firstTime.checked  == false) {
+
+  else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == true ) {
+    taxToron.textContent = "$0"
+    ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+    netLand.textContent = "$0"
+    localStorage.setItem('taxToron',JSON.stringify(0))
+    localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+    localStorage.setItem('netLand',JSON.stringify(0))
+  }else if (gtaResid.checked == false && firstTime.checked == true && refin.checked == false ) {
+    taxToron.textContent = "$0"
+    ftRebate.textContent = `$${addSeparator(compareFT(JSON.parse(localStorage.getItem("taxOntar"))))}`
+    netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) - compareFT(JSON.parse(localStorage.getItem("taxOntar")))))}`
+    localStorage.setItem('taxToron',JSON.stringify(0))
+    localStorage.setItem('ftRebate',JSON.stringify(compareFT(JSON.parse(localStorage.getItem("taxOntar")))))
+    localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+  }
+
+  else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == true ) {
+    taxToron.textContent = "$0"
     ftRebate.textContent = "$0"
+    netLand.textContent = "$0"
+    localStorage.setItem('taxToron',JSON.stringify(0))
     localStorage.setItem('ftRebate',JSON.stringify(0))
-    if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-      taxToron.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
-      localStorage.setItem('taxToron',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-      if (refin.checked == true) {
-        netLand.textContent = "$0"
-        localStorage.setItem('netLand',JSON.stringify(0))
-      }else {
-        netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar")) * 2))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar")) * 2))
-      }
-    }else if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
-      if (refin.checked == true) {
-        netLand.textContent = "$0"
-        localStorage.setItem('netLand',JSON.stringify(0))
-      }else {
-        netLand.textContent = `$${addSeparator((JSON.parse(localStorage.getItem("taxOntar"))))}`
-        localStorage.setItem('netLand',JSON.stringify(JSON.parse(localStorage.getItem("taxOntar"))))
-      }
-      
-      taxToron.textContent = "$0"
-      localStorage.setItem('taxToron',JSON.stringify(0))
-    }
+    localStorage.setItem('netLand',JSON.stringify(0))
+  }else if (gtaResid.checked == false && firstTime.checked == false && refin.checked == false ) {
+    taxToron.textContent = "$0"
+    ftRebate.textContent = "$0"
+    netLand.textContent = `$${addSeparator(JSON.parse(localStorage.getItem("taxOntar")))}`
+    localStorage.setItem('taxToron',JSON.stringify(0))
+    localStorage.setItem('ftRebate',JSON.stringify(0))
+    localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
+  }
   
-  } 
+  
+  
+  
   
 
   if (tempPri != "" && tempPri != 0 && tempPay != "" && tempPay != 0) {
@@ -1079,16 +1254,16 @@ function isNumber(evt) {
     localStorage.setItem('perCmHc',JSON.stringify(perCm))
     localStorage.setItem('perDownPay',JSON.stringify(tempPay / tempPri))
 
-    let tempCmHc = Math.round((tempPri - tempPay) * perCm)
+    let insAmount = Math.round((tempPri - tempPay) * perCm)
 
-    localStorage.setItem('cmHc',JSON.stringify(tempCmHc))
-    if (tempCmHc == 0){
-      cmHc.value = tempCmHc
+    localStorage.setItem('cmHc',JSON.stringify(insAmount))
+    if (insAmount == 0){
+      cmHc.value = insAmount
     }else {
-      cmHc.value = addSeparator(tempCmHc)
+      cmHc.value = addSeparator(insAmount)
     }
-
-    localStorage.setItem('repLoanAmo',JSON.stringify((tempPri - tempPay + +tempCmHc) ))
+    
+    localStorage.setItem('repLoanAmo',JSON.stringify((tempPri - tempPay + +insAmount) ))
   }else {
     localStorage.setItem('perDownPay',JSON.stringify(0))
   }
@@ -1118,6 +1293,9 @@ function isNumber(evt) {
     
     
   }
+
+
+  
 }
 
 function addSeparator(val) {
@@ -1182,29 +1360,39 @@ function compareFT (value) {
   let ontar
   let toron
 
-  if (value != 0 && value != "" && value != null && value != undefined ) {
-    if (value < 4000) {
-      ontar = value
-    }else if (4000 < value) {
-      ontar =  4000
-    }
-    if (value < 4475) {
-      toron = value
-    }else if (4475 < value) {
-      toron =  4475
-    }
-  }
-  
-
-  if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
+  if (JSON.parse(localStorage.getItem("gtaResid")) == false && JSON.parse(localStorage.getItem("")) == false && JSON.parse(localStorage.getItem("refin")) == false) {
    
 
-      return ontar
+    return ontar
 
+  
+  }else {
+    if (value != 0 && value != "" && value != null && value != undefined ) {
+      if (value < 4000) {
+        ontar = value
+      }else if (4000 < value) {
+        ontar =  4000
+      }
+      if (value < 4475) {
+        toron = value
+      }else if (4475 < value) {
+        toron =  4475
+      }
+    }
     
-  }else if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
-    return +ontar + +toron
+  
+    if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
+     
+  
+        return ontar
+  
+      
+    }else if (JSON.parse(localStorage.getItem("gtaResid")) == true) {
+      return +ontar + +toron
+    }
   }
+
+  
 }
 
 
@@ -1246,7 +1434,10 @@ function createTable (count) {
 
     let payment = document.createElement('div')
     payment.setAttribute('id','payment'.concat(i))
-
+    let Tpayment = document.createElement('h2')
+    Tpayment.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("PMT"))))}`
+    Tpayment.setAttribute('id','Tpayment'.concat(i))
+    payment.append(Tpayment)
 
     let intt = document.createElement('div')
     intt.setAttribute('id','intt'.concat(i))
@@ -1255,19 +1446,98 @@ function createTable (count) {
       Tintt.textContent =  "0.0%" 
     }else {
       
-      Tintt.textContent =  `${(Math.round((JSON.parse(localStorage.getItem("estVeriable"))) * 100) / 100).toFixed(2)}%`
+      Tintt.textContent =  `${(Math.round((JSON.parse(localStorage.getItem("estVeriable"))) * 100) / 100).toFixed(1)}%`
     }
     Tintt.setAttribute('id','Tintt'.concat(i))
     intt.append(Tintt)
 
-    let interest = document.createElement('div')
-    interest.setAttribute('id','interest'.concat(i))
-    let principal = document.createElement('div')
-    principal.setAttribute('id','principal'.concat(i))
+    
+
     let balance = document.createElement('div')
     balance.setAttribute('id','balance'.concat(i))
+    let Tbalance = document.createElement('h2')
+    let fBalance = document.getElementById("fBalance");
+    let lBalance = document.getElementById('balance'.concat(+i - +1));
+
+    
+
+    let compoundArr = {
+      'Annual': '1',
+      'Semi-Annual': '2',
+      'Monthly': '12',
+      'Quarterly': '4'
+    };
+    let compp
+    for (const [key, value] of Object.entries(compoundArr)) {
+      if (key == JSON.parse(localStorage.getItem("Compound"))){
+        compp = value
+      }
+    }
+    
+    
+      console.log(JSON.parse(localStorage.getItem("estVeriable")))
+      let irP = (1 +( (JSON.parse(localStorage.getItem("estVeriable")) /100) / compp))
+      let erP = compp / 12
+      let arp = Math.pow(irP,erP)-1
+      console.log(arp)
+
+      let interest = document.createElement('div')
+      interest.setAttribute('id','interest'.concat(i))
+      let Tinterest = document.createElement('h2')
+    
+
+    let principal = document.createElement('div')
+    principal.setAttribute('id','principal'.concat(i))
+    let Tprincipal = document.createElement('h2')
+
+    if(fBalance != null) {
+      Tbalance.setAttribute('id','Tbalance'.concat(i))
+      Tbalance.textContent = (lBalance.textContent.replace(/,/g,"")).replace("$","")
+      Tinterest.textContent =  `$${addSeparator(Math.round(arp * (lBalance.textContent.replace(/,/g,"")).replace("$","")))}`
+    }else {
+      Tbalance.setAttribute('id','fBalance')
+      Tbalance.textContent = JSON.parse(localStorage.getItem("repLoanAmo"))
+      Tinterest.textContent =  `$${addSeparator(Math.round(arp * Tbalance.textContent))}`
+    }
+    Tinterest.setAttribute('id','Tinterest'.concat(i))
+      
+
+    Tprincipal.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("PMT"))) - ((Tinterest.textContent.replace(/,/g,"")).replace("$","")) )}`
+    
+
+    Tbalance.textContent = `$${addSeparator((+Tbalance.textContent - +((Tprincipal.textContent.replace(/,/g,"")).replace("$","")) ))}`
+    if ((Tbalance.textContent.replace(/,/g,"")).replace("$","") < 0) {
+      Tbalance.textContent = `$0`
+    }
+    interest.append(Tinterest)
+    
+    Tprincipal.setAttribute('id','Tprincipal'.concat(i))
+    principal.append(Tprincipal)
+    
+
     let acc = document.createElement('div')
     acc.setAttribute('id','acc'.concat(i))
+    let Tacc = document.createElement('h2')
+    
+    let fTacc = document.getElementById("fTacc");
+    let lAacc = document.getElementById('acc'.concat(+i - +1));
+ 
+    if(fTacc != null) {
+      if (lAacc){
+        Tacc.setAttribute('id','acc'.concat(i))
+        Tacc.textContent = `$${addSeparator(((+(lAacc.textContent.replace(/,/g,"")).replace("$","")) + +((Tinterest.textContent.replace(/,/g,"")).replace("$","")) ))}`
+      }
+      
+    }else{
+      Tacc.setAttribute('id','fTacc')
+      Tacc.textContent = `$${addSeparator((Tinterest.textContent.replace(/,/g,"")).replace("$",""))}`
+    }
+
+    
+    balance.append(Tbalance)
+
+    acc.append(Tacc)
+    
 
     cont.append(pmt)
     cont.append(date)
@@ -1284,47 +1554,117 @@ function createTable (count) {
 }
 
 
-pdfButton.addEventListener('click', function(e){
-  generatePDF(e)
-  })
-function generatePDF(e) {
-  // var printSection = e.target.dataset.print;
-  // var x = printSection.slice(0,printSection.indexOf('-'))
-  // var element = document.getElementById('pdf-area');
-  var element = document.getElementById('repContainer');
-  element.classList.add('print-action')
-    var opt = {
-      filename:     'gds-tds-calculator-report.pdf',
-      // enableLinks: true,
-      margin: [.12, .12, .12, .12],
-      pagebreak: {mode:['avoid-all','css'], after: '.pdf-page-break-after',before: '.pdf-page-break-before' },
-      // pagebreak: {mode:'css'},
-      image: {type: 'jpeg', quality: .98},
-      html2canvas: {scale: 2,logging: false,useCORS: true,},
-      jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait', compressPDF: false},
-    };
-    // $('.lpc-wrapper').removeClass('zeroHeight');
-  //   document.querySelector('.loader-container').style.display = 'flex';
-    // barChart.setSize(400,300);
-    // columnChart3d.setSize(800,300);
-    // barChart.reflow();
-    // columnChart3d.reflow();
-    setTimeout(function(){
-    // html2pdf().set(opt).from(element).output('datauristring').then(function(val){ // datauristring blob
-    html2pdf().set(opt).from(element).save().then(function(val){ // datauristring blob
-      element.classList.remove('pdf-button');
-      // $('.lpc-wrapper').addClass('zeroHeight');
-    //   document.querySelector('.loader-container').style.display = 'none';
-      
-      
-    });
-    },1000)
-    
-   
-  }
 
 
 
 function daysInMonth (month, year) { // Use 1 for January, 2 for February, etc.
   return new Date(year, month, 0).getDate();
+}
+
+// function PMT(ir, np, pv, fv, type) {
+//   /*
+//    * ir   - interest rate per month
+//    * np   - number of periods (months)
+//    * pv   - present value
+//    * fv   - future value
+//    * type - when the payments are due:
+//    *        0: end of the period, e.g. end of month (default)
+//    *        1: beginning of period
+//    */
+//   var pmt, pvif, irIf;
+
+//   fv || (fv = 0);
+//   type || (type = 0);
+
+//   if (ir === 0)
+//       return -(pv + fv)/np;
+
+//   irIf = ir / 12;
+//   pvif = Math.pow(1 + ir, - 1 * 12);
+//   pmt = - (pv * irIf) / (pvif);
+
+
+//   if (type === 1)
+//       pmt /= (1 + ir);
+
+//   return pmt;
+// }
+
+function PMTT(ir, np, pv) {
+
+  var compoundArr = [
+    ['Annual'	     , 1],
+    ['Semi-Annual'   , 2],
+    ['Monthly'	     , 12],
+    ['Quarterly'	 , 4],
+]
+var paymentArr = [
+    ['Annually'	     , 1],
+    ['Semi-Annually'   , 2],
+    ['Quarterly',     4],
+    ['Monthly',       12],
+    ['Bi-Monthly',    6],
+    ['Semi-Monthly',  24],
+    ['Weekly',         52],
+    ['Bi-Weekly',      26],
+    ['Acc Bi-Weekly', 26],
+    ['Acc Weekly',    52],
+];
+var months_per_period_arr = [
+    ['Annually'	     , 12],
+    ['Semi-Annually'   , 6],
+    ['Quarterly',     3],
+    ['Monthly',       1],
+    ['Bi-Monthly',    2],
+    ['Acc Bi-Weekly', 0.5],
+    ['Acc Weekly',    0.25],
+    ['Semi-Monthly',  0.5],
+    ['Weekly',         0.25],
+    ['Bi-Weekly',      0.5],
+] 
+  let compoundd = compoundArr.vlookup(JSON.parse(localStorage.getItem("Compound")),1,false)
+  let pay_frq = 'Monthly';
+  
+  let periods_perYr = paymentArr.vlookup(pay_frq,1,false);
+  let inter_rate = (Math.pow((1+(ir/100)/compoundd),(compoundd/periods_perYr))-1);
+  let numOf_pay = np*periods_perYr;
+  let rate = (Math.pow((1+(ir/100)/compoundd),(compoundd/periods_perYr))-1)
+  let payments = (pay_frq=="Acc Bi-Weekly"?(pmt((Math.pow((1+(ir/100)/compoundd),(compoundd/12))-1),np,pv,0,0)/2):(pay_frq=="Acc Weekly"?(pmt((Math.pow((1+(ir/100)/compoundd),(compoundd/12))-1),np*12,pv,0,0))/4:pmt((inter_rate),numOf_pay,pv,0,0)))
+  return (payments ).toFixed(2)
+}
+
+function pmt(rate, nperiod, pv, fv, type) {
+  if (!fv) fv = 0;
+  if (!type) type = 0;
+
+  if (rate == 0) return -(pv + fv)/nperiod;
+
+  var pvif = Math.pow(1 + rate, nperiod);
+  var pmt = rate / (pvif - 1) * -(pv * pvif + fv);
+
+  if (type == 1) {
+      pmt /= (1 + rate);
+  };
+
+  return Math.abs(pmt);
+}
+
+Array.prototype.vlookup = function(needle,index,exactmatch,findeIndex = 0){
+  index = index || 0;
+  exactmatch = exactmatch || false;
+  for (var i = 0; i < this.length; i++){
+      var row = this[i];
+      if ((exactmatch && (row[findeIndex]===needle || (needle > row[findeIndex] && this[i+1][findeIndex] > needle) ) ) || (typeof row[findeIndex] == 'string' && row[findeIndex].toLowerCase().indexOf(needle.toLowerCase()) !== -1 )){
+          
+          return (index < row.length ? row[index] : row);
+      }
+  }
+  return null;
+}
+
+resetBtn.addEventListener("click",resetAll)
+
+function resetAll () {
+  localStorage.clear()
+  location.reload();
 }

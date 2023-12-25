@@ -42,6 +42,27 @@ body {
   font-weight: 500;
 }
 
+#resetButton {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin: 10vh 2vw 2vh 6vw;
+  position: absolute;
+  left: 0;
+  width: 90px;
+  height: 40px;
+  background-color: rgb(236, 235, 235);
+  border-radius: 5px;
+  border: 1px solid #aea5a5;
+  cursor: pointer;
+  font-size: 12pt;
+  font-weight: 300;
+}
+#resetButton:hover {
+  background-color: rgb(233, 20, 20);
+  color: #ccc;
+  font-weight: 700;
+  font-size: 14pt;
+}
+
 .Assumptions {
   display: block;
   margin: 2% 0% 0% 65%;

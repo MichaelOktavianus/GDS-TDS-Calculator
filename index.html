@@ -12,12 +12,15 @@
 <body>
  
     <div class="container" id="calcuContainer">
+
         <h1>GDS TDS Loan Calculator</h1>
+
         <div class="opt">
             <h4 class="Calcu defau act" id="calcuTab">Calculator</h4>
             <h4 class="Rep defau" id="repTab">Report</h4>
             <h4 class="AmTab defau" id="amortTab">Amortization Table</h4>
         </div>
+        <button id="resetButton" >Reset</button>
         <div class="Assumptions">
             <h4 class="assumpText">Assumptions</h4>
             <div class="compounding">
@@ -190,7 +193,7 @@
                 <div class="bodyL">
                     <div class="divBod">
                         <h4>Yearly Mortgage Payments</h4>
-                        <h3 class="val-text">0</h3>
+                        <h3 class="val-text" id="yMortPay">0</h3>
                     </div>
                     <div class="divBod">
                         <h4>Property Taxes</h4>
