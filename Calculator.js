@@ -133,14 +133,26 @@ var path = window.location.pathname;
 var page = path.split("/").pop();
 
 if (page == "index.html") {
-  
-  
-  
 
-  CompoundSel.value = 'Semi-Annual';
-  PerYearSel.value = '12';
-  localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
-  localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+  localStorage.setItem('gtaResid',JSON.stringify(gtaResid.checked))
+  localStorage.setItem('firstTime',JSON.stringify(firstTime.checked))
+  localStorage.setItem('refin',JSON.stringify(refin.checked))
+
+  
+  if (JSON.parse(localStorage.getItem("Compound")) == "" || JSON.parse(localStorage.getItem("Compound")) == null || JSON.parse(localStorage.getItem("Compound")) == undefined) {
+    CompoundSel.value = 'Semi-Annual';
+    localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
+  }else {
+    CompoundSel.value = JSON.parse(localStorage.getItem("Compound"))
+  }
+  if (JSON.parse(localStorage.getItem("PerYear")) == "" || JSON.parse(localStorage.getItem("PerYear")) == null || JSON.parse(localStorage.getItem("PerYear")) == undefined) {
+    PerYearSel.value = '12';
+    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+  }else {
+    PerYearSel.value = JSON.parse(localStorage.getItem("PerYear"))
+    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+  }
+    
   
   CompoundSel.addEventListener("change", () => {
     localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
@@ -1050,6 +1062,52 @@ function isNumber(evt) {
   let tempPri = purchPrice.value.replace(/,/g,"");
   let tempPay = downPay.value.replace(/,/g,"");
 
+
+
+  if (tempPri != "" && tempPri != 0 && tempPay != "" && tempPay != 0) {
+
+    let befCmHc = (tempPri - tempPay) * (+1 + +0.025)
+    let loanToVal = Math.round((befCmHc / tempPri) * 100)
+    let perCm = 0
+    if (loanToVal >= 95){
+      perCm = 0.04
+    }else if (loanToVal <= 94 && loanToVal >= 90){
+      perCm = 0.031
+    }else if (loanToVal <= 89 && loanToVal >= 85){
+      perCm = 0.028
+    }else if (loanToVal <= 84 && loanToVal >= 80){
+      perCm = 0.024
+    }else if (loanToVal <= 79 && loanToVal >= 75){
+      perCm = 0.017
+    }else if (loanToVal <= 74 && loanToVal >= 65){
+      perCm = 0.006
+    }else if (loanToVal <= 64 ){
+      perCm = 0
+    }
+    if (tempPay / tempPri >= 0.2){
+      perCm = 0
+    }
+    
+    
+
+    localStorage.setItem('perCmHc',JSON.stringify(perCm))
+    localStorage.setItem('perDownPay',JSON.stringify(tempPay / tempPri))
+
+    let insAmount = Math.round((tempPri - tempPay) * perCm)
+
+    localStorage.setItem('cmHc',JSON.stringify(insAmount))
+    if (insAmount == 0){
+      cmHc.value = insAmount
+    }else {
+      cmHc.value = addSeparator(insAmount)
+    }
+    
+    localStorage.setItem('repLoanAmo',JSON.stringify((+(tempPri - tempPay) + +insAmount) ))
+  }else {
+    localStorage.setItem('perDownPay',JSON.stringify(0))
+  }
+
+
   let firs55 = compareTax(55000,tempPri) 
   let to250 = compareTax(195000,(tempPri - firs55)) 
   let to400 = compareTax(150000,((tempPri - firs55) - to250)) 
@@ -1082,14 +1140,6 @@ function isNumber(evt) {
   let mtFee = 0
   let hHy = 0
   
-  if (JSON.parse(localStorage.getItem("PMT")) == "" || JSON.parse(localStorage.getItem("PMT")) == null || JSON.parse(localStorage.getItem("PMT")) == 0 || JSON.parse(localStorage.getItem("PMT")) == undefined) {
-
-    yMortPay.textContent = "$0"
-  }else {
-    ymPay = JSON.parse(localStorage.getItem("PMT")) * PerYearSel.value
-    yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
-    localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
-  }
 
   if (estProTax.value.replace(/,/g,"") != 0) {
     prTax = estProTax.value.replace(/,/g,"") * 12
@@ -1106,17 +1156,28 @@ function isNumber(evt) {
   
  
   if (JSON.parse(localStorage.getItem("estVeriable")) == null || JSON.parse(localStorage.getItem("estVeriable")) == 0 || JSON.parse(localStorage.getItem("estVeriable")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
-    localStorage.setItem('PMT',0)
     yMortPay.textContent = "$0"
   }else {
     localStorage.setItem('PMT',JSON.stringify(PMTT(JSON.parse(localStorage.getItem("estVeriable")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo")) )))
   }
   
   if (JSON.parse(localStorage.getItem("qualRate")) == null || JSON.parse(localStorage.getItem("qualRate")) == 0 || JSON.parse(localStorage.getItem("qualRate")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
-    localStorage.setItem('QPMT',0)
+    yMortPay.textContent = "$0"
     qualMort.textContent = "$0"
   }else {
-    localStorage.setItem('QPMT',JSON.stringify(PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo")) )))
+    localStorage.setItem('QPMT',JSON.stringify(Math.round(PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
+    qualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
+
+  }
+  
+
+  if (JSON.parse(localStorage.getItem("QPMT")) == "" || JSON.parse(localStorage.getItem("QPMT")) == null || JSON.parse(localStorage.getItem("QPMT")) == 0 || JSON.parse(localStorage.getItem("QPMT")) == undefined) {
+
+    yMortPay.textContent = "$0"
+  }else {
+    ymPay = JSON.parse(localStorage.getItem("QPMT")) * 12
+    yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
+    localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
   }
   
 
@@ -1153,6 +1214,8 @@ function isNumber(evt) {
   }
   localStorage.setItem('repGds',JSON.stringify(toGds))
   localStorage.setItem('repTds',JSON.stringify(toTds))
+
+
 
 
 
@@ -1221,52 +1284,6 @@ function isNumber(evt) {
   }
   
   
-  
-  
-  
-
-  if (tempPri != "" && tempPri != 0 && tempPay != "" && tempPay != 0) {
-
-    let befCmHc = (tempPri - tempPay) * (1 + 0.025)
-    let loanToVal = Math.round((befCmHc / tempPri) * 100)
-    let perCm = 0
-    if (loanToVal >= 95){
-      perCm = 0.04
-    }else if (loanToVal <= 94 && loanToVal >= 90){
-      perCm = 0.031
-    }else if (loanToVal <= 89 && loanToVal >= 85){
-      perCm = 0.028
-    }else if (loanToVal <= 84 && loanToVal >= 80){
-      perCm = 0.024
-    }else if (loanToVal <= 79 && loanToVal >= 75){
-      perCm = 0.017
-    }else if (loanToVal <= 74 && loanToVal >= 65){
-      perCm = 0.006
-    }else if (loanToVal <= 64 ){
-      perCm = 0
-    }
-    if (tempPay / tempPri >= 0.2){
-      perCm = 0
-    }
-    
-    
-
-    localStorage.setItem('perCmHc',JSON.stringify(perCm))
-    localStorage.setItem('perDownPay',JSON.stringify(tempPay / tempPri))
-
-    let insAmount = Math.round((tempPri - tempPay) * perCm)
-
-    localStorage.setItem('cmHc',JSON.stringify(insAmount))
-    if (insAmount == 0){
-      cmHc.value = insAmount
-    }else {
-      cmHc.value = addSeparator(insAmount)
-    }
-    
-    localStorage.setItem('repLoanAmo',JSON.stringify((tempPri - tempPay + +insAmount) ))
-  }else {
-    localStorage.setItem('perDownPay',JSON.stringify(0))
-  }
   
   let isDoted = false
 
@@ -1360,7 +1377,7 @@ function compareFT (value) {
   let ontar
   let toron
 
-  if (JSON.parse(localStorage.getItem("gtaResid")) == false && JSON.parse(localStorage.getItem("")) == false && JSON.parse(localStorage.getItem("refin")) == false) {
+  if (JSON.parse(localStorage.getItem("gtaResid")) == false && JSON.parse(localStorage.getItem("firstTime")) == false && JSON.parse(localStorage.getItem("refin")) == false) {
    
 
     return ontar
@@ -1383,7 +1400,7 @@ function compareFT (value) {
   
     if (JSON.parse(localStorage.getItem("gtaResid")) == false) {
      
-  
+        
         return ontar
   
       
