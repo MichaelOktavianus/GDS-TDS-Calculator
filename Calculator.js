@@ -129,10 +129,32 @@ AmTabText.addEventListener("click", AmTabClk)
 
 
 
-var path = window.location.pathname;
-var page = path.split("/").pop();
+let path = window.location.href;
+let page = path.split("/").pop();
+
+function initiall () {
+  page = "index.html"
+}
 
 if (page == "index.html") {
+  
+  if (JSON.parse(localStorage.getItem("gtaResid")) == "" || JSON.parse(localStorage.getItem("gtaResid")) == null || JSON.parse(localStorage.getItem("gtaResid")) == undefined) {
+    gtaResid.checked = false
+  }else {
+    gtaResid.checked = JSON.parse(localStorage.getItem("gtaResid"))
+  }
+    
+  if (JSON.parse(localStorage.getItem("firstTime")) == "" || JSON.parse(localStorage.getItem("firstTime")) == null || JSON.parse(localStorage.getItem("firstTime")) == undefined) {
+    firstTime.checked = false
+  }else {
+    firstTime.checked = JSON.parse(localStorage.getItem("firstTime"))
+  }
+
+  if (JSON.parse(localStorage.getItem("refin")) == "" || JSON.parse(localStorage.getItem("refin")) == null || JSON.parse(localStorage.getItem("refin")) == undefined) {
+    refin.checked = false
+  }else {
+    refin.checked = JSON.parse(localStorage.getItem("refin"))
+  }
 
   localStorage.setItem('gtaResid',JSON.stringify(gtaResid.checked))
   localStorage.setItem('firstTime',JSON.stringify(firstTime.checked))
@@ -161,23 +183,7 @@ if (page == "index.html") {
     localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
   })
 
-  if (JSON.parse(localStorage.getItem("gtaResid")) == "" || JSON.parse(localStorage.getItem("gtaResid")) == null || JSON.parse(localStorage.getItem("gtaResid")) == undefined) {
-    gtaResid.checked = false
-  }else {
-    gtaResid.checked = JSON.parse(localStorage.getItem("gtaResid"))
-  }
-    
-  if (JSON.parse(localStorage.getItem("firstTime")) == "" || JSON.parse(localStorage.getItem("firstTime")) == null || JSON.parse(localStorage.getItem("firstTime")) == undefined) {
-    firstTime.checked = false
-  }else {
-    firstTime.checked = JSON.parse(localStorage.getItem("firstTime"))
-  }
-
-  if (JSON.parse(localStorage.getItem("refin")) == "" || JSON.parse(localStorage.getItem("refin")) == null || JSON.parse(localStorage.getItem("refin")) == undefined) {
-    refin.checked = false
-  }else {
-    refin.checked = JSON.parse(localStorage.getItem("refin"))
-  }
+  
 
 
   
