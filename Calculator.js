@@ -332,6 +332,9 @@ gtaResid.addEventListener("click", ()=> {
       localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
     }
   }
+  let esTot = +estLegal.value.replace(/,/g,"") + +estInsur.value.replace(/,/g,"") + +electReg.value.replace(/,/g,"") + +Registration.value.replace(/,/g,"") + +Appraisal.value.replace(/,/g,"") + +lendersFee.value.replace(/,/g,"") + +brokersFee.value.replace(/,/g,"") + +(netLand.textContent.replace(/,/g,"")).replace("$","")
+  localStorage.setItem('estTotal',JSON.stringify(esTot))
+  estTotal.textContent = `$${addSeparator(esTot)}`
 })
 firstTime.addEventListener("click", ()=> {
   localStorage.setItem('firstTime',JSON.stringify(firstTime.checked))
@@ -405,6 +408,9 @@ firstTime.addEventListener("click", ()=> {
       localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
     }
     }
+    let esTot = +estLegal.value.replace(/,/g,"") + +estInsur.value.replace(/,/g,"") + +electReg.value.replace(/,/g,"") + +Registration.value.replace(/,/g,"") + +Appraisal.value.replace(/,/g,"") + +lendersFee.value.replace(/,/g,"") + +brokersFee.value.replace(/,/g,"") + +(netLand.textContent.replace(/,/g,"")).replace("$","")
+    localStorage.setItem('estTotal',JSON.stringify(esTot))
+    estTotal.textContent = `$${addSeparator(esTot)}`
 })
 refin.addEventListener("click", ()=> {
   
@@ -479,6 +485,9 @@ refin.addEventListener("click", ()=> {
     }
     
   }
+  let esTot = +estLegal.value.replace(/,/g,"") + +estInsur.value.replace(/,/g,"") + +electReg.value.replace(/,/g,"") + +Registration.value.replace(/,/g,"") + +Appraisal.value.replace(/,/g,"") + +lendersFee.value.replace(/,/g,"") + +brokersFee.value.replace(/,/g,"") + +(netLand.textContent.replace(/,/g,"")).replace("$","")
+  localStorage.setItem('estTotal',JSON.stringify(esTot))
+  estTotal.textContent = `$${addSeparator(esTot)}`
 })
 
   
@@ -1051,10 +1060,6 @@ function isNumber(evt) {
 
   localStorage.setItem('gds',JSON.stringify(gds.value.replace(/,/g,"")))
   localStorage.setItem('tds',JSON.stringify(tds.value.replace(/,/g,"")))
-  
-  let esTot = +estLegal.value.replace(/,/g,"") + +estInsur.value.replace(/,/g,"") + +electReg.value.replace(/,/g,"") + +Registration.value.replace(/,/g,"") + +Appraisal.value.replace(/,/g,"") + +lendersFee.value.replace(/,/g,"") + +brokersFee.value.replace(/,/g,"")
-  localStorage.setItem('estTotal',JSON.stringify(esTot))
-  estTotal.textContent = `$${addSeparator(esTot)}`
 
 
   let otDeb1 = otDebt1.value.replace(/,/g,"")
@@ -1195,7 +1200,7 @@ function isNumber(evt) {
   totPay.textContent = `$${addSeparator(toPay)}`
   localStorage.setItem('totPay',JSON.stringify((totPay.textContent.replace(/,/g,"")).replace("$","")))
 
-  let toDeb = Math.round(+otDeb1 + +otDeb2 + +otDeb3 + +toPay)
+  let toDeb = Math.round(+(otDeb1 * 12) + +(otDeb2 * 12) + +(otDeb3 * 12) + +toPay)
   totDebt.textContent = `$${addSeparator(toDeb)}`
   localStorage.setItem('totDebt',JSON.stringify((totDebt.textContent.replace(/,/g,"")).replace("$","")))
 
@@ -1289,7 +1294,9 @@ function isNumber(evt) {
     localStorage.setItem('netLand',JSON.stringify(netLand.textContent.replace(/,/g,"")).replace("$",""))
   }
   
-  
+  let esTot = +estLegal.value.replace(/,/g,"") + +estInsur.value.replace(/,/g,"") + +electReg.value.replace(/,/g,"") + +Registration.value.replace(/,/g,"") + +Appraisal.value.replace(/,/g,"") + +lendersFee.value.replace(/,/g,"") + +brokersFee.value.replace(/,/g,"") + +(netLand.textContent.replace(/,/g,"")).replace("$","")
+  localStorage.setItem('estTotal',JSON.stringify(esTot))
+  estTotal.textContent = `$${addSeparator(esTot)}`
   
   let isDoted = false
 
