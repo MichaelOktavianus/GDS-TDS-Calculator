@@ -1441,8 +1441,8 @@ function createTable (count) {
     date.setAttribute('id','date'.concat(i))
     let Tdate = document.createElement('h2')
     const datee = new Date();
-  let mth = datee.setMonth(+datee.getMonth() + +i, 25); 
-  let yr = new Date(+datee.getFullYear() + +i, datee.getMonth() + 1, datee.getDate ) 
+  let mth = datee.setMonth(+datee.getMonth() + +i, datee.getDate()); 
+  let yr = new Date(+datee.getFullYear() + +i, datee.getMonth() + 1, datee.getDate() ) 
   if (mth > 12) {
     mth = 1
     yr = +datee.getFullYear() + 1
