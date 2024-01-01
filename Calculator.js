@@ -138,6 +138,64 @@ function initiall () {
 
 if (page == "index.html") {
   
+  PerYearSel.addEventListener("change", ()=> {
+    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+
+    if (JSON.parse(localStorage.getItem("estVeriable")) == null || JSON.parse(localStorage.getItem("estVeriable")) == 0 || JSON.parse(localStorage.getItem("estVeriable")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
+      yMortPay.textContent = "$0"
+    }else {
+      localStorage.setItem('PMT',JSON.stringify(PMTT(JSON.parse(localStorage.getItem("estVeriable")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo")) )))
+    }
+
+    if (JSON.parse(localStorage.getItem("qualRate")) == null || JSON.parse(localStorage.getItem("qualRate")) == 0 || JSON.parse(localStorage.getItem("qualRate")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
+      yMortPay.textContent = "$0"
+      qualMort.textContent = "$0"
+    }else {
+      localStorage.setItem('QPMT',JSON.stringify((PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
+      qualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
+  
+    }
+    
+  
+    if (JSON.parse(localStorage.getItem("QPMT")) == "" || JSON.parse(localStorage.getItem("QPMT")) == null || JSON.parse(localStorage.getItem("QPMT")) == 0 || JSON.parse(localStorage.getItem("QPMT")) == undefined) {
+  
+      yMortPay.textContent = "$0"
+    }else {
+      ymPay = Math.round(JSON.parse(localStorage.getItem("QPMT")) * PerYearSel.value)
+      yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
+      localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
+    }
+  })
+
+  CompoundSel.addEventListener("change", ()=> {
+    localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
+
+    if (JSON.parse(localStorage.getItem("estVeriable")) == null || JSON.parse(localStorage.getItem("estVeriable")) == 0 || JSON.parse(localStorage.getItem("estVeriable")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
+      yMortPay.textContent = "$0"
+    }else {
+      localStorage.setItem('PMT',JSON.stringify(PMTT(JSON.parse(localStorage.getItem("estVeriable")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo")) )))
+    }
+    
+    if (JSON.parse(localStorage.getItem("qualRate")) == null || JSON.parse(localStorage.getItem("qualRate")) == 0 || JSON.parse(localStorage.getItem("qualRate")) == undefined || JSON.parse(localStorage.getItem("durLoan")) == "" || JSON.parse(localStorage.getItem("durLoan")) == null || JSON.parse(localStorage.getItem("durLoan")) == 0 || JSON.parse(localStorage.getItem("durLoan")) == undefined || JSON.parse(localStorage.getItem("repLoanAmo")) == "" || JSON.parse(localStorage.getItem("repLoanAmo")) == null || JSON.parse(localStorage.getItem("repLoanAmo")) == 0 || JSON.parse(localStorage.getItem("repLoanAmo")) == undefined) {
+      yMortPay.textContent = "$0"
+      qualMort.textContent = "$0"
+    }else {
+      localStorage.setItem('QPMT',JSON.stringify((PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
+      qualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
+  
+    }
+    
+  
+    if (JSON.parse(localStorage.getItem("QPMT")) == "" || JSON.parse(localStorage.getItem("QPMT")) == null || JSON.parse(localStorage.getItem("QPMT")) == 0 || JSON.parse(localStorage.getItem("QPMT")) == undefined) {
+  
+      yMortPay.textContent = "$0"
+    }else {
+      ymPay = Math.round(JSON.parse(localStorage.getItem("QPMT")) * PerYearSel.value)
+      yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
+      localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
+    }
+  })
+
   if (JSON.parse(localStorage.getItem("gtaResid")) == "" || JSON.parse(localStorage.getItem("gtaResid")) == null || JSON.parse(localStorage.getItem("gtaResid")) == undefined) {
     gtaResid.checked = false
   }else {
@@ -168,23 +226,12 @@ if (page == "index.html") {
     CompoundSel.value = JSON.parse(localStorage.getItem("Compound"))
   }
   if (JSON.parse(localStorage.getItem("PerYear")) == "" || JSON.parse(localStorage.getItem("PerYear")) == null || JSON.parse(localStorage.getItem("PerYear")) == undefined) {
-    PerYearSel.value = '12';
-    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+    
   }else {
     PerYearSel.value = JSON.parse(localStorage.getItem("PerYear"))
     localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
   }
     
-  
-  CompoundSel.addEventListener("change", () => {
-    localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
-  })
-  PerYearSel.addEventListener("change", () => {
-    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
-  })
-
-  
-
 
   
   if (JSON.parse(localStorage.getItem("taxOntar")) == "" || JSON.parse(localStorage.getItem("taxOntar")) == null || JSON.parse(localStorage.getItem("taxOntar")) == 0  || JSON.parse(localStorage.getItem("taxOntar")) == undefined) {
@@ -1176,7 +1223,7 @@ function isNumber(evt) {
     yMortPay.textContent = "$0"
     qualMort.textContent = "$0"
   }else {
-    localStorage.setItem('QPMT',JSON.stringify(Math.round(PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
+    localStorage.setItem('QPMT',JSON.stringify((PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / PerYearSel.value), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
     qualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
 
   }
@@ -1186,7 +1233,7 @@ function isNumber(evt) {
 
     yMortPay.textContent = "$0"
   }else {
-    ymPay = JSON.parse(localStorage.getItem("QPMT")) * 12
+    ymPay = Math.round(JSON.parse(localStorage.getItem("QPMT")) * 12)
     yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
     localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
   }
@@ -1200,7 +1247,7 @@ function isNumber(evt) {
   totPay.textContent = `$${addSeparator(toPay)}`
   localStorage.setItem('totPay',JSON.stringify((totPay.textContent.replace(/,/g,"")).replace("$","")))
 
-  let toDeb = Math.round(+(otDeb1 * 12) + +(otDeb2 * 12) + +(otDeb3 * 12) + +toPay)
+  let toDeb = Math.round(+(otDeb1) + +(otDeb2) + +(otDeb3) + +toPay)
   totDebt.textContent = `$${addSeparator(toDeb)}`
   localStorage.setItem('totDebt',JSON.stringify((totDebt.textContent.replace(/,/g,"")).replace("$","")))
 
@@ -1652,14 +1699,16 @@ var months_per_period_arr = [
     ['Weekly',         0.25],
     ['Bi-Weekly',      0.5],
 ] 
-  let compoundd = compoundArr.vlookup(JSON.parse(localStorage.getItem("Compound")),1,false)
-  let pay_frq = 'Monthly';
+  let compoundd = compoundArr.vlookup(CompoundSel.value,1,false)
+  let pay_frq = PerYearSel.value;
   
-  let periods_perYr = paymentArr.vlookup(pay_frq,1,false);
-  let inter_rate = (Math.pow((1+(ir/100)/compoundd),(compoundd/periods_perYr))-1);
+  let periods_perYr = pay_frq
+  //let inter_rate = (Math.pow(((1+(ir/100))/compoundd),(compoundd/periods_perYr))-1);
+
   let numOf_pay = np*periods_perYr;
-  let rate = (Math.pow((1+(ir/100)/compoundd),(compoundd/periods_perYr))-1)
-  let payments = (pay_frq=="Acc Bi-Weekly"?(pmt((Math.pow((1+(ir/100)/compoundd),(compoundd/12))-1),np,pv,0,0)/2):(pay_frq=="Acc Weekly"?(pmt((Math.pow((1+(ir/100)/compoundd),(compoundd/12))-1),np*12,pv,0,0))/4:pmt((inter_rate),numOf_pay,pv,0,0)))
+  let rate = (Math.pow((1+(ir/100)/compoundd),(compoundd/periods_perYr)))-1
+
+  let payments = (pay_frq=="Acc Bi-Weekly"?(pmt((Math.pow((1+(ir/100)/compoundd),(compoundd/12))-1),np,pv,0,0)/2):(pay_frq=="Acc Weekly"?(pmt((Math.pow((1+(ir/100)/compoundd),(compoundd/12))-1),np*12,pv,0,0))/4:pmt((rate),numOf_pay,pv,0,0)))
   return (payments ).toFixed(2)
 }
 
