@@ -133,7 +133,10 @@ let path = window.location.href;
 let page = path.split("/").pop();
 
 function initiall () {
-  page = "index.html"
+  CompoundSel.value = "Semi-Annual"
+  PerYearSel.value = "12"
+  localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+  localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
 }
 
 if (page == "index.html") {
@@ -153,7 +156,7 @@ if (page == "index.html") {
     }else {
       localStorage.setItem('QPMT',JSON.stringify((PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
       qualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
-  
+      
     }
     
   
@@ -1233,7 +1236,7 @@ function isNumber(evt) {
 
     yMortPay.textContent = "$0"
   }else {
-    ymPay = Math.round(JSON.parse(localStorage.getItem("QPMT")) * 12)
+    ymPay = Math.round(JSON.parse(localStorage.getItem("QPMT")) * PerYearSel.value)
     yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
     localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
   }
