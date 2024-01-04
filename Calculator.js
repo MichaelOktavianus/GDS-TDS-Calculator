@@ -1518,10 +1518,10 @@ function createTable (count) {
     let Tdate = document.createElement('h2')
     const datee = new Date();
   let mth = datee.setMonth(+datee.getMonth() + +i, datee.getDate()); 
-  let yr = new Date(+datee.getFullYear() + +i, datee.getMonth() + 1, datee.getDate() ) 
+  let yr = new Date(datee.getFullYear(), datee.getMonth() , datee.getDate() ) 
   if (mth > 12) {
     mth = 1
-    yr = +datee.getFullYear() + 1
+    yr = datee.getFullYear() 
   }
   let nDate = new Date(yr , datee.getMonth() , datee.getDate() ) 
   Tdate.textContent = nDate.toLocaleDateString('en-GB') ;
