@@ -133,10 +133,20 @@ let path = window.location.href;
 let page = path.split("/").pop();
 
 function initiall () {
-  CompoundSel.value = "Semi-Annual"
-  PerYearSel.value = "12"
-  localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
-  localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
+  if (JSON.parse(localStorage.getItem("Compound")) == "" || JSON.parse(localStorage.getItem("Compound")) == null || JSON.parse(localStorage.getItem("Compound")) == undefined) {
+    CompoundSel.value = "Semi-Annual"
+    localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
+  }else {
+    CompoundSel.value = JSON.parse(localStorage.getItem("Compound"))
+  }
+  if (JSON.parse(localStorage.getItem("PerYear")) == "" || JSON.parse(localStorage.getItem("PerYear")) == null || JSON.parse(localStorage.getItem("PerYear")) == undefined) {
+    PerYearSel.value = "12"
+    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+  }else {
+    PerYearSel.value = JSON.parse(localStorage.getItem("PerYear"))
+    
+  }
+  
 }
 
 if (page == "index.html") {
@@ -167,7 +177,15 @@ if (page == "index.html") {
       ymPay = Math.round(JSON.parse(localStorage.getItem("QPMT")) * PerYearSel.value)
       yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
       localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
+
+      
+
     }
+    totPay.textContent = `$${addSeparator(Math.round(+(yMortPay.textContent.replace(/,/g,"")).replace("$","") + +(yProTax.textContent.replace(/,/g,"")).replace("$","") + +(yMaintFee.textContent.replace(/,/g,"")).replace("$","") + +(yHeHy.textContent.replace(/,/g,"")).replace("$","") ) )}`
+    localStorage.setItem('totPay',JSON.stringify((totPay.textContent.replace(/,/g,"")).replace("$","")))
+
+    totDebt.textContent = `$${addSeparator(Math.round(+(totPay.textContent.replace(/,/g,"")).replace("$","") + +(otDebt1.value.replace(/,/g,"")).replace("$","") + +(otDebt2.value.replace(/,/g,"")).replace("$","") + +(otDebt3.value.replace(/,/g,"")).replace("$","") ) )}`
+    localStorage.setItem('totDebt',JSON.stringify((totDebt.textContent.replace(/,/g,"")).replace("$","")))
   })
 
   CompoundSel.addEventListener("change", ()=> {
@@ -196,7 +214,14 @@ if (page == "index.html") {
       ymPay = Math.round(JSON.parse(localStorage.getItem("QPMT")) * PerYearSel.value)
       yMortPay.textContent = `$${addSeparator(Math.round(ymPay))}`
       localStorage.setItem('yMortPay',JSON.stringify((yMortPay.textContent.replace(/,/g,"")).replace("$","")))
+
+      
     }
+    totPay.textContent = `$${addSeparator(Math.round(+(yMortPay.textContent.replace(/,/g,"")).replace("$","") + +(yProTax.textContent.replace(/,/g,"")).replace("$","") + +(yMaintFee.textContent.replace(/,/g,"")).replace("$","") + +(yHeHy.textContent.replace(/,/g,"")).replace("$","") ) )}`
+    localStorage.setItem('totPay',JSON.stringify((totPay.textContent.replace(/,/g,"")).replace("$","")))
+
+    totDebt.textContent = `$${addSeparator(Math.round(+(totPay.textContent.replace(/,/g,"")).replace("$","") + +(otDebt1.value.replace(/,/g,"")).replace("$","") + +(otDebt2.value.replace(/,/g,"")).replace("$","") + +(otDebt3.value.replace(/,/g,"")).replace("$","") ) )}`
+    localStorage.setItem('totDebt',JSON.stringify((totDebt.textContent.replace(/,/g,"")).replace("$","")))
   })
 
   if (JSON.parse(localStorage.getItem("gtaResid")) == "" || JSON.parse(localStorage.getItem("gtaResid")) == null || JSON.parse(localStorage.getItem("gtaResid")) == undefined) {
@@ -223,16 +248,15 @@ if (page == "index.html") {
 
   
   if (JSON.parse(localStorage.getItem("Compound")) == "" || JSON.parse(localStorage.getItem("Compound")) == null || JSON.parse(localStorage.getItem("Compound")) == undefined) {
-    CompoundSel.value = 'Semi-Annual';
     localStorage.setItem('Compound',JSON.stringify(CompoundSel.value))
   }else {
     CompoundSel.value = JSON.parse(localStorage.getItem("Compound"))
   }
   if (JSON.parse(localStorage.getItem("PerYear")) == "" || JSON.parse(localStorage.getItem("PerYear")) == null || JSON.parse(localStorage.getItem("PerYear")) == undefined) {
-    
+    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
   }else {
     PerYearSel.value = JSON.parse(localStorage.getItem("PerYear"))
-    localStorage.setItem('PerYear',JSON.stringify(PerYearSel.value))
+    
   }
     
 
@@ -1226,11 +1250,13 @@ function isNumber(evt) {
     yMortPay.textContent = "$0"
     qualMort.textContent = "$0"
   }else {
-    localStorage.setItem('QPMT',JSON.stringify((PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / PerYearSel.value), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
+    localStorage.setItem('QPMT',JSON.stringify((PMTT(JSON.parse(localStorage.getItem("qualRate")) , (JSON.parse(localStorage.getItem("durLoan")) / 12), JSON.parse(localStorage.getItem("repLoanAmo"))) )))
     qualMort.textContent = `$${addSeparator(Math.round(JSON.parse(localStorage.getItem("QPMT"))))}`
 
   }
   
+
+
 
   if (JSON.parse(localStorage.getItem("QPMT")) == "" || JSON.parse(localStorage.getItem("QPMT")) == null || JSON.parse(localStorage.getItem("QPMT")) == 0 || JSON.parse(localStorage.getItem("QPMT")) == undefined) {
 
